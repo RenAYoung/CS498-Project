@@ -1,7 +1,20 @@
 import sys
 
 def run_game():
-	pass
+    while True:
+        decision = input("Type 'W' to win\nType 'L' to lose\n")
+
+        if decision in "Ww":
+            win = 1
+            print("nice")
+            break
+        elif decision in "Ll":
+            win = 0
+            break
+        else:
+            print("Incorrect input: Please type 'W' or 'L'")
+
+run_game()
 
 def show_start_menu():
 	prompt_string = \
