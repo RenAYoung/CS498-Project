@@ -1,30 +1,37 @@
 import sys
 
+# global variables
+
+
 def run_game():
-    while True:
-        decision = input("Type 'W' to win\nType 'L' to lose\n")
+	game_status = ''
+	while True:
+		decision = input("Type 'W' to win\nType 'L' to lose\n")
+		if decision in "Ww":
+			game_status = 'WON'
+			end_game(game_status)
+		elif decision in "Ll":
+			game_status = 'LOST'
+			end_game(game_status)
+		else:
+			print("Invalid input: Please type 'W' or 'L'")
 
-        if decision in "Ww":
-            win = 1
-            print("nice")
-            break
-        elif decision in "Ll":
-            win = 0
-            break
-        else:
-            print("Incorrect input: Please type 'W' or 'L'")
 
-run_game()
+def end_game(game_status):
+	print(game_status)
+	sys.exit(0)
+
 
 def show_start_menu():
 	prompt_string = \
-	"(S)tart\n" \
-	"(O)ptions\n" \
-	"(H)ow to Play\n" \
-	"(Q)uit\n" \
-	"Input: "
-
-	print('CS 498 Project Game')
+		"(S)tart\n" \
+        "(O)ptions\n" \
+        "(H)ow to Play\n" \
+        "(Q)uit\n" \
+        "Input: "
+	print('-------------------------')
+	print('|  CS 498 Project Game  |')
+	print('-------------------------')
 	while True:
 		choice = input(prompt_string)[0].upper()
 		if choice == 'S':
@@ -40,4 +47,9 @@ def show_start_menu():
 		elif choice == 'Q':
 			print('choice was q')
 			sys.exit(0)
+		else:
+			print("Invalid input: Please choose from following options: ")
 
+
+if __name__ == '__main__':
+    show_start_menu()
