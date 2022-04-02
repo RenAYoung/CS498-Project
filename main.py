@@ -18,8 +18,27 @@ def run_game():
 
 
 def end_game(game_status):
-	print(game_status)
-	sys.exit(0)
+    print()
+    # print final game status
+    if game_status == 'WON':
+        print('Congrats! You won! :))))')
+    else:
+        print('Awww :( you lost.')
+        
+    # print game results statistics
+    print('')
+    
+    # provide option for game result download
+    res_down_choice = input('Would you like to download your game results? (y/n): ')
+    if res_down_choice in 'Yy':
+        print('downloaded')
+    elif res_down_choice not in 'Nn':
+        print('invalid option')
+    
+    # provide option to return to starting menu
+    input('Press enter to return to starting menu')
+    show_start_menu()
+    
 
 
 def show_start_menu():
