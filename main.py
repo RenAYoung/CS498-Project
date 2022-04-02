@@ -26,14 +26,24 @@ def end_game(game_status):
         print('Awww :( you lost.')
         
     # print game results statistics
-    print('')
+    print()
+    print('Results')
+    print('Number of enemies defeated: ')
+    print('Highest level weapon acquired: ')
+    print('Highest level armor acquired: ')
+    print('Total gold collected: ')
+    print()
     
     # provide option for game result download
-    res_down_choice = input('Would you like to download your game results? (y/n): ')
-    if res_down_choice in 'Yy':
-        print('downloaded')
-    elif res_down_choice not in 'Nn':
-        print('invalid option')
+    while True: 
+        res_down_choice = input('Would you like to download your game results? (y/n): ')
+        if res_down_choice in 'Yy':
+            print('downloaded')
+            break
+        elif res_down_choice in 'Nn':
+            break
+        else:
+            print('Invalid input: Please choose another option. ')
     
     # provide option to return to starting menu
     input('Press enter to return to starting menu')
