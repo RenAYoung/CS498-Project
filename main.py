@@ -1,10 +1,8 @@
 import sys
 from character import myCharacter
+import item_list
 
 # global variables
-
-player = myCharacter("Coolio", 20, 20, 10, 5, "a sword", "a shield")
-player.add_item("s potion")
 
 def run_game():
     game_status = ''
@@ -27,7 +25,7 @@ def end_game(game_status):
         print('Congrats! You won! :))))')
     else:
         print('Awww :( you lost.')
-
+ 
     # print game results statistics
     print()
     print('Results')
@@ -59,8 +57,9 @@ def options():
     print()
     print("Options")
     print("----------------------")
-    print("Stuff")
+    new_name = input("Enter your character's name: ")
     print("----------------------")
+    player.name = new_name
     input('Press enter to return to starting menu')
     show_start_menu()
 
@@ -106,4 +105,9 @@ def show_start_menu():
 
 
 if __name__ == '__main__':
+    player = myCharacter("Coolio", 20, 20, 10, 0, 5, None, None)
+    player.sword_equip(item_list.basic_sword)
+    player.sheild_equip(item_list.basic_shield)
+    player.add_item("s potion")
+    
     show_start_menu()
