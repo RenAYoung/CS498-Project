@@ -4,10 +4,39 @@
 class Item:
     
     # create initialization function for Item class    
-    def __init__(self, name, health_recovery, health_max_inc, attack, defense):
-        self.name = name
-        self.health_recovery = health_recovery
-        self.health_max_inc = health_max_inc
-        self.attack = attack
-        self.defense = defense
+    def __init__(self, name):
+        self.name = name 
+        
+    def apply_effect():
+        pass
+        
     
+# create Health class for health recovery items
+class Health(Item):
+    
+    def __init__(self, name, health_recovery):
+        Item.__init__(self, name)
+        self.health_recovery = health_recovery
+
+
+# create MaxHealth class for max health increasing items
+class MaxHealth(Item):
+    
+    def __init__(self, name, health_max_inc):
+        Item.__init__(self, name)
+        self.health_max_inc = health_max_inc
+
+
+# create Attack class for attack based items
+class Attack(Item):
+    
+    def __init__(self, name, attack):
+        Item.__init__(self, name)
+        self.attack = attack
+
+
+# create Defense class for defense based items
+class Defense(Item):
+    
+    def __init__(self, defense):
+        self.defense = defense
