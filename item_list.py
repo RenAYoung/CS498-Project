@@ -1,21 +1,22 @@
 # file for list of all items
 
 # import Item class
-import item as it
+from item import Item
 
 # Health Recovery
-small_potion = it.Health('Small Potion', 5)
-medium_potion = it.Health('Medium Potion', 10)
-large_potion = it.Health('Large Potion', 15)
+small_potion = Item('Small Potion', 5, 0, 0, 0)
+medium_potion = Item('Medium Potion', 10, 0, 0, 0)
+large_potion = Item('Large Potion', 15, 0, 0, 0)
 
 # Health Max Increasing
-magic_star = it.MaxHealth('Magic Star', 10)
-epic_magic_star = it.MaxHealth('Epic Magic Star', 25)
+magic_star = Item('Magic Star', 0, 10, 0, 0)
+epic_magic_star = Item('Epic Magic Star', 0, 25, 0, 0)
 
 # Attack
-rusty_sword = it.Attack('Rusty Sword', 2)
-basic_sword = it.Attack('Basic Sword', 5)
+wooden_stick = Item('Wooden Stick', 0, 0, 1, 0)
+rusty_sword = Item('Rusty Sword', 0, 0, 2, 0)
+basic_sword = Item('Basic Sword', 0, 0, 5, 0)
 
 # Defense
-wooden_plank = it.Defense('Wooden Plank', 3)
-basic_shield = it.Defense('Basic Shield', 6)
+wooden_plank = Item('Wooden Plank', 0, 0, 0, 3)
+basic_shield = Item('Basic Shield', 0, 0, 0, 6)
