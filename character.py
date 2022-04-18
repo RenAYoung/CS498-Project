@@ -3,8 +3,7 @@ import sys
 from collections import Counter
 
 class myCharacter:
-    def __init__(self, info, name, max_health, health, damage, inventory_size, item_sword, item_shield):
-        self.info = info
+    def __init__(self, name, max_health, health, damage, inventory_size, item_sword, item_shield):
         self.name = name
         self.max_health = max_health
         self.health = health
@@ -31,7 +30,7 @@ class myCharacter:
 
     def show_inv(self):
         for item, count in self.inventory.items():
-            print(item, count)
+            print(" " + item, count)
 
     def sword_equip(self):
         if self.item_sword != "":
@@ -41,10 +40,19 @@ class myCharacter:
         if self.item_shield != "":
             pass
 
+    def display_info(self):
+        print("Name: " + self.name)
+        print("Health: " + str(self.health) + "/" + str(self.max_health))
+        print("Damage: " + str(self.damage))
+        print("Inventory - " + str(len(self.inventory)) + " item(s):")
+        self.show_inv()
+        print(" " + self.item_shield)
+        print(" " + self.item_sword)
+
 
 ## this is to test this file of code
 def test():
-    c = myCharacter("", "lol", 10, 12, 3, 5, "", "")
+    c = myCharacter("lol", 10, 12, 3, 5, "", "")
     c.add_item("s potion")
     c.add_item("m potion")
     c.add_item("s potion")

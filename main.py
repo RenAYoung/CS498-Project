@@ -1,8 +1,10 @@
 import sys
-
+from character import myCharacter
 
 # global variables
 
+player = myCharacter("Coolio", 20, 20, 10, 5, "a sword", "a shield")
+player.add_item("s potion")
 
 def run_game():
     game_status = ''
@@ -29,6 +31,9 @@ def end_game(game_status):
     # print game results statistics
     print()
     print('Results')
+    print("-------------------------")
+    player.display_info()
+    print("-------------------------")
     print('Number of enemies defeated: ')
     print('Highest level weapon acquired: ')
     print('Highest level armor acquired: ')
@@ -47,6 +52,24 @@ def end_game(game_status):
             print('Invalid input: Please choose another option. ')
 
     # provide option to return to starting menu
+    input('Press enter to return to starting menu')
+    show_start_menu()
+
+def options():
+    print()
+    print("Options")
+    print("----------------------")
+    print("Stuff")
+    print("----------------------")
+    input('Press enter to return to starting menu')
+    show_start_menu()
+
+def how_to_play():
+    print()
+    print("How To Play")
+    print("----------------------")
+    print("Stuff")
+    print("----------------------")
     input('Press enter to return to starting menu')
     show_start_menu()
 
@@ -69,9 +92,11 @@ def show_start_menu():
             break
         elif choice == 'O':
             print('choice was o')
+            options()
             break
         elif choice == 'H':
             print('choice was h')
+            how_to_play()
             break
         elif choice == 'Q':
             print('choice was q')
