@@ -1,7 +1,6 @@
 import sys
 
 from collections import Counter
-import item_list as itlist
 
 class myCharacter:
     def __init__(self, name, max_health, health, damage, inventory_size, item_sword, item_shield):
@@ -33,9 +32,9 @@ class myCharacter:
         for item, count in self.inventory.items():
             print(" " + item, count)
 
-    def sword_equip(self, name):
+    def sword_equip(self):
         if self.item_sword != "":
-            
+            pass
 
     def sheild_equip(self):
         if self.item_shield != "":
