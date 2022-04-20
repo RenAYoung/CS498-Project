@@ -1,111 +1,135 @@
 import math
+import random
+import item_list
+from utils import randpoint
 
 
 class Room:
-
-    def __init__(self, user_entrance=[2, 2], room_id=0, neighbors=[-1, -1, -1, -1]):
-        self.user_location = user_entrance  # current location of user in room [x, y]
+    def __init__(self, user_entrance=[2, 2], room_id=0, height=9, width=15, max_items = 4):
+        self.user_location = user_entrance  # current location of user in room [row, col]
 
         # array of room ids [top, right, bottom, left]
-        self.neighbors = neighbors
+        self.neighbors = [-1] * 4
+        self.direction_map = {'top': 0, 'right': 1, 'bottom': 2, 'left': 3}
+        self.location_map = {
+            'top': [width // 2, 0],
+            'right': [width - 1, height // 2],
+            'bottom': [width // 2, height - 1],
+            'left': [0, height // 2]
+        }
 
         # dimensions for the room
-        self.grid_size = [12, 19]  # rows and cols of grid
-        self.cell_width = 6  # width of cells (should be even)
-        self.cell_height = 3  # height of cells (should be odd)
+        self.height = height
+        self.width = width
+        self.cell_width = 4  # width of cells (should be even)
+        self.cell_height = 2  # height of cells (should be odd)
+
+        # get random items for this room
+        self.num_items = random.randrange(max_items)
+        self.items_location = [randpoint(1,1)]
+            # [random.sample(item_list.array_of_items, self.num_items)]
+        # print("Items: ", self.items)
 
         # initialize correct id for the room
         self.id = room_id
 
+    def connect(self, dir, other):
+        if dir in range(4):
+            self.neighbors[dir] = other.id
+            other.neighbors[(dir + 2) % 4] = self.id
+        else:
+            print('bad direction')
+
     def move_user_position(self, x=0, y=0):
-        self.user_location = [self.user_location[0] + x, self.user_location[1] + y]
+        nx = max(0, min(self.user_location[0] + x, self.width - 1))
+        ny = max(0, min(self.user_location[1] + y, self.height - 1))
+        self.user_location = [nx, ny]
+
+    def move_user_left(self):
+        self.user_location[1] = max(0, self.user_location[1] - 1)
+
+    def move_user_right(self):
+        self.user_location[1] = min(self.width - 1, self.user_location[1] + 1)
+
+    def move_user_up(self):
+        self.user_location[0] = max(0, self.user_location[0] - 1)
+
+    def move_user_down(self):
+        self.user_location[0] = min(self.height - 1, self.user_location[0] + 1)
 
     def print_room(self):
         # print top row cap
-        print("_" * (self.grid_size[1] * self.cell_width + 1))
+        for i in range(self.width * self.cell_width + 1):
+            if self.has_door('top') and \
+                    (i // self.cell_width == self.width // 2 and i % self.cell_width):
+                print(" ", end='')
+            elif i % self.cell_width == 0:
+                print("+", end='')
+            else:
+                print("-", end='')
+        print()
         # print each row
-        for i in range(self.grid_size[0]):
+        for i in range(self.height):
             self.print_row(i)
 
-    def has_door(self, which_door):
-        if which_door == 'top':
-            return self.neighbors[0] != -1
-        elif which_door == 'right':
-            return self.neighbors[1] != -1
-        elif which_door == 'bottom':
-            return  self.neighbors[2] != -1
-        elif which_door == 'left':
-            return self.neighbors[3] != -1
+    def user_on_door(self):
+        for dir in ['top', 'bottom', 'left', 'right']:
+            if self.has_door(dir) and self.user_location == self.location_map[dir]:
+                return True
+        return False
 
-    # this is the one without the space btwn the rows (bottom cap only)
+    def has_door(self, which_door):
+        return self.neighbors[self.direction_map[which_door]] != -1
+
     def print_row(self, row_num):
         # print cells
         for j in range(self.cell_height):  # print each horizontal cross-section
-            for i in range(self.grid_size[1] * self.cell_width):
+            for i in range(self.width * self.cell_width + 1):
                 col_num = i // self.cell_width  # which col is currently rendering (0-numCols)
-                # border of the cells
+                # vertical borders of the cells
                 if i % self.cell_width == 0:
-                    if row_num == math.floor(self.grid_size[0] / 2) and col_num == 0:  # check if door
+                    # check if there is left door
+                    if i % self.cell_width == 0 and j % self.cell_height == self.cell_height - 1:  # + border
+                        print("+", end='')
+                    elif self.has_door('left') and row_num == self.height // 2 and col_num == 0:
+                        print(" ", end='')
+                    elif self.has_door('right') and row_num == self.height // 2 and col_num == self.width:  # right door
                         print(" ", end='')
                     else:
                         print("|", end='')
-                # print at the middle of the cell
-                elif j == math.floor((self.cell_height - 1) / 2) and i % self.cell_width == math.floor(
-                        self.cell_width / 2):
-                    # print("Col NUM: ", col_num, end='')
-                    if self.user_location[0] == col_num and self.user_location[1] == row_num:
+                # print at the middle of each cell
+                elif j == (self.cell_height - 1) // 2 and i % self.cell_width == self.cell_width // 2:
+                    # print user location
+                    if self.user_location[1] == col_num and self.user_location[0] == row_num:
                         print("U", end='')
-                    else:
+                    else:  # middle of each cell
                         print("?", end='')
-                # bottom boundary of the cell
+                # horizontal border of cells
                 elif j == self.cell_height - 1:
-                    print("_", end='')
+                    # check if there is a bottom door
+                    if self.has_door('bottom') and row_num == self.height - 1 and col_num == self.width // 2:
+                        print(" ", end='')
+                    else:
+                        print("-", end='')
                 # blank space in cells
                 else:
                     print(" ", end='')
-            print("|")  # end cap of each row
-
-    def print_move_prompt(self):
-        prompt_string = \
-            "(L)eft\n" \
-            "(R)ight\n" \
-            "(D)own\n" \
-            "(U)p\n" \
-            "(Q)uit\n" \
-            "\t>>"
-
-        while True:
-            user_input = input(prompt_string).upper()
-            choice = ""
-            if user_input == "":
-                choice = ""
-            else:
-                choice = user_input[0]
-            if choice == 'L':
-                self.move_user_position(x=-1)
-                break
-            elif choice == 'R':
-                self.move_user_position(x=1)
-                break
-            elif choice == 'U':
-                self.move_user_position(y=-1)
-                break
-            elif choice == 'D':
-                self.move_user_position(y=1)
-                break
-            elif choice == 'Q':
-                print("YOU QUIT LOL")
-                break
-            else:
-                print("-" * 120)
-                print("Invalid Option, try again.")
-                print()
-                print("-" * 120)
+            print()
 
 
 if __name__ == '__main__':
-    room = Room()
-    room.print_room()
+    room1 = Room(room_id=0)
+    room2 = Room(room_id=1)
+    room2.connect(0, room1)
+    room3 = Room(room_id=2)
+    room3.connect(1, room1)
+    room4 = Room(room_id=3)
+    room4.connect(2, room1)
+    room5 = Room(room_id=4)
+    room5.connect(3, room1)
+    print(room1.neighbors, room2.neighbors)
+    print("has door top:", room1.has_door('bottom'))
+    room1.print_room()
     while True:
-        room.print_move_prompt()
-        room.printRoom()
+        room1.print_move_prompt()
+        room1.print_room()

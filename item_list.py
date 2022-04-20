@@ -20,3 +20,8 @@ basic_sword = Item('Basic Sword', 0, 0, 5, 0)
 # Defense
 wooden_plank = Item('Wooden Plank', 0, 0, 0, 3)
 basic_shield = Item('Basic Shield', 0, 0, 0, 6)
+
+array_of_items = [small_potion, medium_potion, large_potion,
+                  magic_star, epic_magic_star,
+                  wooden_stick, rusty_sword, basic_sword,
+                  wooden_plank, basic_shield]
