@@ -25,3 +25,9 @@ array_of_items = [small_potion, medium_potion, large_potion,
                   magic_star, epic_magic_star,
                   wooden_stick, rusty_sword, basic_sword,
                   wooden_plank, basic_shield]
+
+dict_of_items = {'small_potion':small_potion, 'medium_potion':medium_potion, 'large_potion':large_potion,
+                  'magic_star':magic_star, 'epic_magic_star':epic_magic_star,
+                  'wooden_stick':wooden_stick, 'rusty_sword':rusty_sword, 'basic_sword':basic_sword,
+                  'wooden_plank':wooden_plank, 'basic_shield':basic_shield}
+
