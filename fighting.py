@@ -12,7 +12,7 @@ import time
 
 
 # function to handle overall fight
-def fight(self, curr_enemy):
+def fight(player, curr_enemy):
     
     # variable for checking if player successfully fled or not
     flee_status = False
@@ -23,13 +23,13 @@ def fight(self, curr_enemy):
     # - player is not dead
     # - enemy is not dead
     # - player has not fled
-    while self.health > 0 and curr_enemy.health > 0 and flee_status != True:
+    while player.health > 0 and curr_enemy.health > 0 and flee_status != True:
         
         # loop to display options for user and check validity
         valid_options = 'AUF'
         action = 'X'
         while action not in valid_options:
-            print("\nYour Health:", self.health)
+            print("\nYour Health:", player.health)
             print("Enemy Health:", curr_enemy.health)
             options_string = \
                 "(A)ttack\n" \
@@ -44,21 +44,21 @@ def fight(self, curr_enemy):
         # call function based on user's input action choice
         if action in 'Aa':
             # call attack function
-            attack_enemy(self, curr_enemy)
+            attack_enemy(player, curr_enemy)
         elif action in 'Uu':
             # call use item function
-            use_item(self)
+            use_item(player)
         elif action in 'Ff':
             # call flee function
-            flee_status = flee_fight(self, curr_enemy)
+            flee_status = flee_fight(player, curr_enemy)
         
         # if user has not fled, enemy is not dead, and player is not dead
-        if self.health > 0 and curr_enemy.health > 0 and flee_status != True:
+        if player.health > 0 and curr_enemy.health > 0 and flee_status != True:
             # enemy attacks player
-            enemy_attack(self, curr_enemy)
+            enemy_attack(player, curr_enemy)
 
     # return 0 if player died
-    if self.health < 1:
+    if player.health < 1:
         return 0
     # return 1 if enemy died
     elif curr_enemy.health < 1:
@@ -68,16 +68,16 @@ def fight(self, curr_enemy):
         return 2
 
 # function for attacking the enemy
-def attack_enemy(self, curr_enemy):
+def attack_enemy(player, curr_enemy):
     
     print()
     
     # get player's attack value
-    damage = self.damage
+    damage = player.damage
     # determine whether it is a critical hit or not
     if rand.random() < 0.2: 
         print("Critical Hit!!!!!! Niiiiice!")
-        damage = self.damage * 1.5
+        damage = player.damage * 1.5
     print("You did", damage, "damage to the enemy.")
     # if enemy health is less than damage amount
     if curr_enemy.health < damage:
@@ -91,10 +91,10 @@ def attack_enemy(self, curr_enemy):
 
 
 # function for using an item
-def use_item(self):
+def use_item(player):
     print("\nInventory: ")
     # display inventory for player
-    self.show_inv()
+    player.show_inv()
     
     # check if user has any items in inventory
     
@@ -106,18 +106,18 @@ def use_item(self):
     while val_choice != True:
         
         # loop through items and check if one matches
-        for item, count in self.inventory.items():
+        for item, count in player.inventory.items():
             # check if choice found
             if choice == item[0]:
                 val_choice = True
                 # get amount to heal from item
                 heal_amount = itlist.dict_of_items[item].health_recovery
                 # add health recovery amount up to max health
-                if (self.max_health - self.health) > heal_amount: # if less, add healing
-                    self.health += heal_amount
+                if (player.max_health - player.health) > heal_amount: # if less, add healing
+                    player.health += heal_amount
                 else: # if greater than difference, just set back to max
-                    self.health = self.max_health
-                self.del_item(item)
+                    player.health = player.max_health
+                player.del_item(item)
             
             if val_choice == True:
                 break
@@ -125,14 +125,14 @@ def use_item(self):
         if val_choice != True:
             choice = input("Invalid choice. Try again (type first letter): ")
         
-    print("You have", self.health, "health.")
+    print("You have", player.health, "health.")
 
 
 
 # function for fleeing from the enemy
-def flee_fight(self, curr_enemy):
+def flee_fight(player, curr_enemy):
     # get player defense
-    play_def = self.defense
+    play_def = player.defense
     # get enemy attack
     enemy_dam = curr_enemy.damage
     
@@ -163,7 +163,7 @@ def flee_fight(self, curr_enemy):
         
 
 # function for the enemy attacking the player
-def enemy_attack(self, curr_enemy):
+def enemy_attack(player, curr_enemy):
     
     time.sleep(2)
     
@@ -179,16 +179,16 @@ def enemy_attack(self, curr_enemy):
         damage = curr_enemy.damage * 1.5
         
     # if player's health (+def) is less than damage amount
-    if (self.health + self.defense) < damage:
+    if (player.health + player.defense) < damage:
         # player's health becomes 0
-        self.health = 0
-        print("Enemy did", self.health + self.defense, "damage.")
+        player.health = 0
+        print("Enemy did", player.health + player.defense, "damage.")
     # else - if player's health (+def) is greater than or equal to damage amount
     # but, defense is less than damage
-    elif self.defense < damage:
+    elif player.defense < damage:
         # take damage off of player
-        self.health -= (damage - self.defense)
-        print("Enemy did", damage - self.defense, "damage.")
+        player.health -= (damage - player.defense)
+        print("Enemy did", damage - player.defense, "damage.")
     # else - enemy did no damage
     else:
         print("Enemy did no damage")
