@@ -42,13 +42,13 @@ def fight(player, curr_enemy):
                 print('Invalid Choice. Please choose from the following options: ')
                 
         # call function based on user's input action choice
-        if action in 'Aa':
+        if action in 'A':
             # call attack function
             attack_enemy(player, curr_enemy)
-        elif action in 'Uu':
+        elif action in 'U':
             # call use item function
             use_item(player)
-        elif action in 'Ff':
+        elif action in 'F':
             # call flee function
             flee_status = flee_fight(player, curr_enemy)
         
@@ -95,8 +95,6 @@ def use_item(player):
     print("\nInventory: ")
     # display inventory for player
     player.show_inv()
-    
-    # check if user has any items in inventory
     
     # ask user to type in first letter of item
     choice = input("Which item would you like to use? (type first letter): ")
@@ -201,9 +199,9 @@ def enemy_attack(player, curr_enemy):
 def test():
     c = character.myCharacter("lol", 10, 8, 2, 3, 5, None, None)
     en = enemy.Enemy("oof", 15, 4)
-    c.add_item("small_potion")
-    c.add_item("medium_potion")
-    c.add_item("small_potion")
+    c.add_item("sm potion")
+    c.add_item("med potion")
+    c.add_item("sm potion")
     
     fight(c, en)
     
