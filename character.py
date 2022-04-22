@@ -34,6 +34,52 @@ class myCharacter:
         for item, count in self.inventory.items():
             print(" " + item, count)
 
+    def use_item(self):
+        if len(self.inventory) <= 0:
+            print("Inventory is empty")
+            print("You have", self.health, "health.")
+        else:
+            print("\nInventory: ")
+            self.show_inv()
+            
+            print("---------------")
+            for item, count in self.inventory.items():
+                beginning = item_list.dict_of_items[item].name[0].upper()
+                rest = item_list.dict_of_items[item].name[1:]
+                print("(" + beginning + ")" + rest)
+            print("(Q)uit")
+
+            choice = input("Input which item you would like to use: ").upper()
+            val_choice = False
+            
+            while val_choice != True:
+
+                if choice in "Q":
+                    break
+                
+                for item, count in self.inventory.items():
+                    if choice == item[0].upper():
+                        val_choice = True
+    
+                        if self.health == self.max_health:
+                            print("Your health is full")
+                            break
+
+                        heal_amount = item_list.dict_of_items[item].health_recovery
+                        if (self.max_health - self.health) > heal_amount:
+                            self.health += heal_amount
+                        else:
+                            self.health = self.max_health
+                        self.del_item(item)
+                    
+                    if val_choice == True:
+                        break
+                
+                if val_choice != True:
+                    choice = input("Invalid choice. Try again: ")
+                
+            print("You have", self.health, "health.")
+
     def sword_equip(self, sword):
         if self.item_sword != None:
             self.damage -= self.item_sword.attack
@@ -58,19 +104,17 @@ class myCharacter:
 
 ## this is to test this file of code
 def test():
-    c = myCharacter("lol", 10, 12, 0, 0, 5, None, None)
+    c = myCharacter("lol", 12, 12, 0, 0, 5, None, None)
+    c.add_item("small_potion")
+    c.add_item("medium_potion")
+    c.add_item("small_potion")
+    c.use_item()
+    '''
     print(c.damage)
     c.sword_equip(item_list.wooden_stick)
     print(c.damage)
     c.sword_equip(item_list.basic_sword)
     print(c.damage)
-    '''
-    c.add_item("s potion")
-    c.add_item("m potion")
-    c.add_item("s potion")
-    c.show_inv()
-    c.del_item("s potion")
-    c.show_inv()
     c.sword_equip(item_list.rusty_sword)
     '''
 
