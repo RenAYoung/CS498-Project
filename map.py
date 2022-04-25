@@ -81,6 +81,15 @@ class Map:
 				print("Invalid option, try again.")
 				print("-" * 120)
 
+	def run(self):
+		while True:
+			map.current_room.print_room()
+			if not map.print_move_prompt():
+				return False
+			if they go to the ennd:
+				reutner True
+
+
 
 if __name__ == '__main__':
 	map = Map(room_height=6, room_width=8)

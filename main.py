@@ -6,16 +6,30 @@ import item_list
 
 def run_game():
     game_status = ''
+    character = Character()
+
+    map1arr
+    map2arr
     while True:
-        decision = input("Type 'W' to win\nType 'L' to lose\n")
-        if decision in "Ww":
-            game_status = 'WON'
-            end_game(game_status)
-        elif decision in "Ll":
-            game_status = 'LOST'
-            end_game(game_status)
+
+        for i in range(num_maps):
+            m = Map(prob_arr=mapiarr)
+            m.assign_charater(charactcer)
+            if not m.run():
+                print(':( u lost')
+                break
         else:
-            print("Invalid input: Please type 'W' or 'L'")
+            print('yay u won')
+
+        # decision = input("Type 'W' to win\nType 'L' to lose\n")
+        # if decision in "Ww":
+        #     game_status = 'WON'
+        #     end_game(game_status)
+        # elif decision in "Ll":
+        #     game_status = 'LOST'
+        #     end_game(game_status)
+        # else:
+        #     print("Invalid input: Please type 'W' or 'L'")
 
 
 def end_game(game_status):
