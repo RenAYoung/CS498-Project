@@ -5,7 +5,8 @@ from utils import randpoint
 
 
 class Room:
-    def __init__(self, user_entrance=[2, 2], room_id=0, height=9, width=15, max_items = 4):
+
+    def __init__(self, user_entrance=[2, 2], room_id=0, height=9, width=15, max_items=4):
         self.user_location = user_entrance  # current location of user in room [row, col]
 
         # array of room ids [top, right, bottom, left]
@@ -20,20 +21,38 @@ class Room:
 
         # dimensions for the room
         self.height = height
-        self.width = width
+        self.width = width # arrays of coords for enemies and items
         self.cell_width = 4  # width of cells (should be even)
         self.cell_height = 2  # height of cells (should be odd)
 
-        # get random items for this room
-        self.num_items = random.randrange(max_items)
-        self.items_location = [randpoint(1,1)]
-            # [random.sample(item_list.array_of_items, self.num_items)]
-        # print("Items: ", self.items)
+        self.max_items = max_items
+        # arrays of coords for enemies and items
+        self.items_location = []
+        self.enemy_locations = []
+        # set up enemy and item locations in the room
+        self.set_enemies()
+        self.set_items()
 
         # initialize correct id for the room
         self.id = room_id
 
+    def set_items(self):
+        """ Randomly generates position of x number of items in room
+        where x is in the range [0, max_items]"""
+        num_items = random.randrange(self.max_items)
+        for _ in range(num_items):
+            new_point = list(randpoint(self.height, self.width))
+            while new_point in self.enemy_locations:  # make sure item isn't placed on an enemy
+                new_point = list(randpoint(self.height, self.width))
+            self.items_location.append(new_point)
+
+    def set_enemies(self):
+        # can add more valid enemy locations here...
+        valid_enemy_locations = [[1, 1], [1, self.width - 2], [self.height - 2, 1], [self.height - 2, self.width - 2]]
+        self.enemy_locations.append(random.choice(valid_enemy_locations))
+
     def connect(self, dir, other):
+        """ helper function to connect this room to another """
         if dir in range(4):
             self.neighbors[dir] = other.id
             other.neighbors[(dir + 2) % 4] = self.id
@@ -41,6 +60,7 @@ class Room:
             print('bad direction')
 
     def move_user_position(self, x=0, y=0):
+        """ changes position of user in room when user moves"""
         nx = max(0, min(self.user_location[0] + x, self.width - 1))
         ny = max(0, min(self.user_location[1] + y, self.height - 1))
         self.user_location = [nx, ny]
@@ -58,6 +78,7 @@ class Room:
         self.user_location[0] = min(self.height - 1, self.user_location[0] + 1)
 
     def print_room(self):
+        """ prints the terminal visualization of the room for the user """
         # print top row cap
         for i in range(self.width * self.cell_width + 1):
             if self.has_door('top') and \
@@ -99,11 +120,16 @@ class Room:
                         print("|", end='')
                 # print at the middle of each cell
                 elif j == (self.cell_height - 1) // 2 and i % self.cell_width == self.cell_width // 2:
+                    # print("Enemy locations rn:" , self.enemy_locations)
                     # print user location
-                    if self.user_location[1] == col_num and self.user_location[0] == row_num:
+                    if self.user_location[1] == col_num and self.user_location[0] == row_num:  # User location
                         print("U", end='')
-                    else:  # middle of each cell
+                    elif [row_num, col_num] in self.enemy_locations:  # Enemy location
+                        print("!", end='')
+                    elif [row_num, col_num] in self.items_location:  # Item locations
                         print("?", end='')
+                    else:  # middle of each cell
+                        print(" ", end='')
                 # horizontal border of cells
                 elif j == self.cell_height - 1:
                     # check if there is a bottom door
@@ -115,21 +141,3 @@ class Room:
                 else:
                     print(" ", end='')
             print()
-
-
-if __name__ == '__main__':
-    room1 = Room(room_id=0)
-    room2 = Room(room_id=1)
-    room2.connect(0, room1)
-    room3 = Room(room_id=2)
-    room3.connect(1, room1)
-    room4 = Room(room_id=3)
-    room4.connect(2, room1)
-    room5 = Room(room_id=4)
-    room5.connect(3, room1)
-    print(room1.neighbors, room2.neighbors)
-    print("has door top:", room1.has_door('bottom'))
-    room1.print_room()
-    while True:
-        room1.print_move_prompt()
-        room1.print_room()
