@@ -6,18 +6,21 @@ from utils import randpoint
 
 class Room:
 
-    def __init__(self, user_entrance=[2, 2], room_id=0, height=9, width=15, max_items=4):
+    def __init__(self, user_entrance=[3, 2], room_id=0, height=9, width=15, max_items=4):
         self.user_location = user_entrance  # current location of user in room [row, col]
 
         # array of room ids [top, right, bottom, left]
         self.neighbors = [-1] * 4
         self.direction_map = {'top': 0, 'right': 1, 'bottom': 2, 'left': 3}
         self.location_map = {
-            'top': [width // 2, 0],
-            'right': [width - 1, height // 2],
-            'bottom': [width // 2, height - 1],
-            'left': [0, height // 2]
+            'top': [0, width // 2],
+            'right': [height // 2, width - 1],
+            'bottom': [height - 1, width // 2],
+            'left': [height // 2, 0]
         }
+
+        # is this the final room
+        self.is_final_room = False
 
         # dimensions for the room
         self.height = height
@@ -76,6 +79,9 @@ class Room:
 
     def move_user_down(self):
         self.user_location[0] = min(self.height - 1, self.user_location[0] + 1)
+
+    def set_final_room(self, is_final_room):
+        self.is_final_room = is_final_room
 
     def print_room(self):
         """ prints the terminal visualization of the room for the user """

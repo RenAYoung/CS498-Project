@@ -23,7 +23,7 @@ class Map:
 			'L': 'move_user_left',
 			'R': 'move_user_right',
 			'Q': 'quit_game',
-			'M': 'move_rooms'
+			'E': 'move_rooms'
 		}
 
 	def generate_rooms(self):
@@ -56,7 +56,7 @@ class Map:
 	def generate_options(self):
 		options = {'U': 'p', 'D': 'own', 'L': 'eft', 'R': 'ight', 'Q': 'uit'}
 		if self.current_room.user_on_door():
-			options['M'] = 'ove'
+			options['E'] = 'nter'
 		return options
 
 	def generate_prompt_string(self, options):
@@ -84,15 +84,13 @@ class Map:
 	def run(self):
 		while True:
 			map.current_room.print_room()
-			if not map.print_move_prompt():
-				return False
-			if they go to the ennd:
-				reutner True
+			map.print_move_prompt()
+			# if they go to the ennd:
+			# 	reutner True
 
 
 
 if __name__ == '__main__':
-	map = Map(room_height=6, room_width=8)
-	while True:
-		map.current_room.print_room()
-		map.print_move_prompt()
+	map = Map(room_height=10, room_width=13)
+	# run the game
+	map.run()
