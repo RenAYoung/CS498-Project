@@ -99,6 +99,18 @@ class Room:
                 return True
         return False
 
+    def user_on_enemy(self):
+        for enemy_location in self.enemy_locations:
+            if self.user_location == enemy_location:
+                return True
+        return False
+
+    def user_on_item(self):
+        for item_location in self.items_location:
+            if self.user_location == item_location:
+                return True
+        return False
+
     def has_door(self, which_door):
         return self.neighbors[self.direction_map[which_door]] != -1
 
