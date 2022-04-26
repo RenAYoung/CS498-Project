@@ -194,8 +194,6 @@ def enemy_attack(player, curr_enemy):
     time.sleep(2)
 
 
-
-
 def test():
     c = character.myCharacter("lol", 10, 8, 2, 3, 5, None, None)
     en = enemy.Enemy("oof", 15, 4)
@@ -219,10 +217,7 @@ def test():
     attack_enemy(c, en)
     print("h3: ", en.health)
     '''
-    
-    
-test()
-    
-    
-    
-    
+
+
+if __name__ == '__main__':
+    test()

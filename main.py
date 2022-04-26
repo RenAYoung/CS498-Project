@@ -3,6 +3,9 @@ from character import myCharacter
 import item_list
 from map import Map
 from datetime import datetime
+from item_list import array_of_items
+from enemy_list import list_of_enemies
+
 
 # global variables
 
@@ -10,31 +13,36 @@ def run_game():
     game_status = ''
     character = myCharacter("name", 10, 10, 0, 0, 6, None, None)
 
-    num_maps = 3
-
-    map1arr = Map(room_height = 6, room_width = 8)
-    map2arr = Map(room_height = 6, room_width = 8)
-    map3arr = Map(room_height = 6, room_width = 8)
-    
-    map_list = [map1arr, map2arr, map3arr]
-    
-    
+    item_probs = [1] * len(array_of_items)
+    enemy_probs = [1] * len(list_of_enemies)
     while True:
+        num_maps = 1
+        for i in range(num_maps):
+            m = Map(character, item_probs, enemy_probs)
+            m.run()
+            while (True):
+                if m.getStatus() != 'PLAYING':
+                    end_game(m.getStatus())
 
-        for i in range(len(map_list)):
-            curr_map = map_list[i]
-            while True:
-                curr_map.current_room.print_room()
-                curr_map.print_move_prompt()
+    # num_maps = 3
+    #
+    # map1arr = Map(room_height = 6, room_width = 8)
+    # map2arr = Map(room_height = 6, room_width = 8)
+    # map3arr = Map(room_height = 6, room_width = 8)
+    #
+    # map_list = [map1arr, map2arr, map3arr]
+    #
+    #
+    # while True:
+    #
+    #     for i in range(len(map_list)):
+    #         curr_map = map_list[i]
+    #         while True:
+    #             curr_map.current_room.print_room()
+    #             curr_map.print_move_prompt()
+
             
-            #m.assign_charater(charactcer) # assign
-            
-            
-            #if not m.run():
-            #    print(':( u lost')
-            #    break
-            #else:
-            #    print('yay u won')
+
             
         break
 

@@ -15,3 +15,7 @@ minotaur = Enemy("Minotaur", 30, 15)
 goblin_gladiator = Enemy("Goblin Gladiator", 18, 12)
 adult_dragon = Enemy("Adult Dragon", 40, 18)
 
+list_of_enemies = [baby_slime, goblin_scout, baby_dragon,
+                  adult_slime, goblin_trooper, dragon_youngling,
+                  minotaur, goblin_gladiator, adult_dragon]
+

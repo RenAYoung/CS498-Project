@@ -31,8 +31,11 @@ class myCharacter:
             print("Inventory is empty")
 
     def show_inv(self):
+        print("-" * 120)
+        print("Inventory: ")
         for item, count in self.inventory.items():
-            print(" " + item, count)
+            print(f" {item} {count}")
+        print("-" * 120)
 
     def use_item(self):
         if len(self.inventory) <= 0:
