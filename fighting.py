@@ -26,17 +26,22 @@ def fight(player, curr_enemy):
     while player.health > 0 and curr_enemy.health > 0 and flee_status != True:
         
         # loop to display options for user and check validity
-        valid_options = 'AUF'
+        valid_options = 'AF'
         action = 'X'
         while action not in valid_options:
+            # print health info
             print("\nYour Health:", player.health)
             print("Enemy Health:", curr_enemy.health)
-            options_string = \
-                "(A)ttack\n" \
-                "(U)se Item\n" \
-                "(F)lee\n" \
-                "Enter Choice: "
-            action = input(options_string)[0].upper()
+            
+            # print options
+            print("\n(A)ttack")
+            # check that there are items to use
+            if len(player.inventory) > 0:
+                print("(U)se Item")
+                valid_options = 'AUF'
+            print("(F)lee")
+            action = input("Enter Choice: ")[0].upper()
+            
             if action not in valid_options:
                 # user input a choice that was not listed, so they need to be reprompted
                 print('Invalid Choice. Please choose from the following options: ')
@@ -45,9 +50,9 @@ def fight(player, curr_enemy):
         if action in 'A':
             # call attack function
             attack_enemy(player, curr_enemy)
-        elif action in 'U':
+        elif action in 'U' and len(player.inventory) > 0:
             # call use item function
-            use_item(player)
+            use_item(player, curr_enemy)
         elif action in 'F':
             # call flee function
             flee_status = flee_fight(player, curr_enemy)
@@ -66,6 +71,7 @@ def fight(player, curr_enemy):
     # return 2 if neither died
     else: 
         return 2
+
 
 # function for attacking the enemy
 def attack_enemy(player, curr_enemy):
@@ -91,15 +97,16 @@ def attack_enemy(player, curr_enemy):
 
 
 # function for using an item
-def use_item(player):
+def use_item(player, curr_enemy):
+    
     print("\nInventory: ")
     # display inventory for player
     player.show_inv()
-    
+        
     # ask user to type in first letter of item
     choice = input("Which item would you like to use? (type first letter): ")
     val_choice = False
-    
+        
     # loop while choice not matching valid option
     while val_choice != True:
         
@@ -197,9 +204,11 @@ def enemy_attack(player, curr_enemy):
 def test():
     c = character.myCharacter("lol", 10, 8, 2, 3, 5, None, None)
     en = enemy.Enemy("oof", 15, 4)
-    c.add_item("sm potion")
-    c.add_item("med potion")
-    c.add_item("sm potion")
+    #c.add_item("sm potion")
+    #c.add_item("med potion")
+    #c.add_item("sm potion")
+    print(len(c.inventory))
+    
     
     fight(c, en)
     
