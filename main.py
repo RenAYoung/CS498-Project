@@ -1,35 +1,42 @@
 import sys
 from character import myCharacter
 import item_list
+from map import Map
+from datetime import datetime
 
 # global variables
 
 def run_game():
     game_status = ''
-    character = Character()
+    character = myCharacter("name", 10, 10, 0, 0, 6, None, None)
 
-    map1arr
-    map2arr
+    num_maps = 3
+
+    map1arr = Map(room_height = 6, room_width = 8)
+    map2arr = Map(room_height = 6, room_width = 8)
+    map3arr = Map(room_height = 6, room_width = 8)
+    
+    map_list = [map1arr, map2arr, map3arr]
+    
+    
     while True:
 
-        for i in range(num_maps):
-            m = Map(prob_arr=mapiarr)
-            m.assign_charater(charactcer)
-            if not m.run():
-                print(':( u lost')
-                break
-        else:
-            print('yay u won')
-
-        # decision = input("Type 'W' to win\nType 'L' to lose\n")
-        # if decision in "Ww":
-        #     game_status = 'WON'
-        #     end_game(game_status)
-        # elif decision in "Ll":
-        #     game_status = 'LOST'
-        #     end_game(game_status)
-        # else:
-        #     print("Invalid input: Please type 'W' or 'L'")
+        for i in range(len(map_list)):
+            curr_map = map_list[i]
+            while True:
+                curr_map.current_room.print_room()
+                curr_map.print_move_prompt()
+            
+            #m.assign_charater(charactcer) # assign
+            
+            
+            #if not m.run():
+            #    print(':( u lost')
+            #    break
+            #else:
+            #    print('yay u won')
+            
+        break
 
 
 def end_game(game_status):
@@ -47,15 +54,33 @@ def end_game(game_status):
     player.display_info()
     print("-------------------------")
     print('Number of enemies defeated: ')
-    print('Highest level weapon acquired: ')
-    print('Highest level armor acquired: ')
-    print('Total gold collected: ')
+    print('Total points collected: ')
     print()
 
     # provide option for game result download
     while True:
         res_down_choice = input('Would you like to download your game results? (y/n): ')
         if res_down_choice in 'Yy':
+            file_name = input("Enter name of file for results to go to (ex: results.txt): ")
+            out_file = open(file_name, "a")
+            
+            # datetime object containing current date and time
+            now = datetime.now()
+            # dd/mm/YY H:M:S
+            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+            
+            out_file.write("Run (finished): " + dt_string + "\n")
+            print("Run (finished): " + dt_string + "\n")
+            out_file.write("Result: " + game_status + "\n")
+            out_file.write("Name: " + player.name + "\n")
+            out_file.write("Final Health: " + str(player.health) + "/" + str(player.max_health) + "\n")
+            out_file.write("Final Damage: " + str(player.damage) + "\n")
+            out_file.write("Final Sword: " + player.item_sword.name + "\n")
+            out_file.write("Final Shield: " + player.item_shield.name + "\n")
+            out_file.write('Number of enemies defeated: ' + "\n")
+            out_file.write('Total points collected: ' + "\n")
+            out_file.write("\n")
+            
             print('downloaded')
             break
         elif res_down_choice in 'Nn':
@@ -127,5 +152,5 @@ if __name__ == '__main__':
     player.sword_equip(item_list.basic_sword)
     player.sheild_equip(item_list.basic_shield)
     player.add_item("s potion")
-    
-    show_start_menu()
+    end_game("WON")
+    #show_start_menu()
