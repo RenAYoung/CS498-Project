@@ -74,6 +74,7 @@ def end_game(game_status):
             out_file.write("Final Sword: " + player.item_sword.name + "\n")
             out_file.write("Final Shield: " + player.item_shield.name + "\n")
             out_file.write('Number of enemies defeated: ' + player.num_killed + "\n")
+
             out_file.write("\n")
             
             print('downloaded')
