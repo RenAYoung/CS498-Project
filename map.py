@@ -33,7 +33,7 @@ class Map:
 			'Q': 'quit_game',
 			'E': 'move_rooms',
 			'P': 'pick_up_item',
-			'S': 'show_inventory',
+			'S': 'show_info',
 			'X': 'final_exit'
 		}
 
@@ -86,8 +86,8 @@ class Map:
 		# else:
 		self.character.add_item(item)
 
-	def show_inventory(self):
-		self.character.show_inv()
+	def show_info(self):
+		self.character.display_info()
 		input()
 
 	def move_rooms(self):
@@ -109,7 +109,7 @@ class Map:
 				# self.current_room.user_location = [1,1]
 
 	def generate_options(self):
-		options = {'U': 'p', 'D': 'own', 'L': 'eft', 'R': 'ight', 'Q': 'uit', 'S': 'how inventory'}
+		options = {'U': 'p', 'D': 'own', 'L': 'eft', 'R': 'ight', 'Q': 'uit', 'S': 'how info'}
 		curr_door = self.current_room.current_door()
 		if curr_door != -1:
 			options['E'] = 'nter'

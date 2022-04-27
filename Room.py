@@ -15,7 +15,7 @@ class Room:
         # array of room ids [top, right, bottom, left]
         self.neighbors = [-1] * 4
         self.direction_map = {'top': 0, 'right': 1, 'bottom': 2, 'left': 3}
-        self.direction_map_2 = {0: 'top', 1: 'right', 2: 'bottom', 3: 'left'}
+        self.direction_map_2 = ['top','right','bottom','left']
         self.location_map = {
             'top': [0, width // 2],
             'right': [height // 2, width - 1],
