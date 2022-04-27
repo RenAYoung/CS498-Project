@@ -50,8 +50,7 @@ def end_game(game_status):
     print("-------------------------")
     player.display_info()
     print("-------------------------")
-    print('Number of enemies defeated: ')
-    print('Total points collected: ')
+    print('Number of enemies defeated:', player.num_killed)
     print()
 
     # provide option for game result download
@@ -74,8 +73,7 @@ def end_game(game_status):
             out_file.write("Final Damage: " + str(player.damage) + "\n")
             out_file.write("Final Sword: " + player.item_sword.name + "\n")
             out_file.write("Final Shield: " + player.item_shield.name + "\n")
-            out_file.write('Number of enemies defeated: ' + "\n")
-            out_file.write('Total points collected: ' + "\n")
+            out_file.write('Number of enemies defeated: ' + player.num_killed + "\n")
             out_file.write("\n")
             
             print('downloaded')
@@ -149,6 +147,5 @@ if __name__ == '__main__':
     player = myCharacter("Coolio", 20, 20, 10, 0, 5, None, None, 0)
     player.sword_equip(item_list.basic_sword)
     player.sheild_equip(item_list.basic_shield)
-    player.add_item("s potion")
     #end_game("WON")
     show_start_menu()

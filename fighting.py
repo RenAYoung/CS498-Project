@@ -72,6 +72,7 @@ def fight(player, curr_enemy):
     # return 1 if enemy died
     elif curr_enemy.health < 1:
         print("\nCongrats! You defeated the villian. The valley of plenty should toss you a coin.")
+        player.slay()
         return 1
     # return 2 if neither died
     else: 
