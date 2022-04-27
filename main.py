@@ -27,7 +27,7 @@ def run_game():
 
     num_maps = 1
     for i in range(num_maps):
-        m = Map(character, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=3)
+        m = Map(character, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=5)
         m.run()
         if m.get_status() == 'LOST':
             end_game(m.get_status())
@@ -127,19 +127,19 @@ def show_start_menu():
         choice = input(prompt_string)
         choice = choice and choice[0].upper()
         if choice == 'S':
-            print('choice was s')
+            print()
             run_game()
             break
         elif choice == 'O':
-            print('choice was o')
+            print()
             options()
             break
         elif choice == 'H':
-            print('choice was h')
+            print()
             how_to_play()
             break
         elif choice == 'Q':
-            print('choice was q')
+            print()
             sys.exit(0)
         else:
             print("Invalid input: Please choose from following options: ")

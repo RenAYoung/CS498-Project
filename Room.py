@@ -7,6 +7,12 @@ from item_list import array_of_items
 
 
 class Room:
+    location_map = {
+        'top': [0, 9 // 2],
+        'right': [7 // 2, 9 - 1],
+        'bottom': [7 - 1, 9 // 2],
+        'left': [7 // 2, 0]
+    }
 
     def __init__(self, item_probs, enemy_probs, user_entrance=[3, 2], room_id=0, height=9, width=15, max_items=4,
                  is_final_room=False):
@@ -16,12 +22,7 @@ class Room:
         self.neighbors = [-1] * 4
         self.direction_map = {'top': 0, 'right': 1, 'bottom': 2, 'left': 3}
         self.direction_map_2 = ['top','right','bottom','left']
-        self.location_map = {
-            'top': [0, width // 2],
-            'right': [height // 2, width - 1],
-            'bottom': [height - 1, width // 2],
-            'left': [height // 2, 0]
-        }
+
 
 
         # dimensions for the room
@@ -95,6 +96,9 @@ class Room:
         ny = max(0, min(self.user_location[1] + y, self.height - 1))
         self.user_location = [nx, ny]
 
+    def set_user_location(self, new_user_location):
+        self.user_location = new_user_location
+
     def move_user_left(self):
         self.user_location[1] = max(0, self.user_location[1] - 1)
 
@@ -127,7 +131,12 @@ class Room:
 
     def current_door(self):
         for dir in ['top', 'bottom', 'left', 'right']:
-            if self.has_door(dir) and self.user_location == self.location_map[dir]:
+            if self.has_door(dir) and self.user_location == Room.location_map[dir]:
+                # print("in current door... room id: ", self.id)
+                # print("in current door... user loc: ", self.user_location)
+                # print("in current door... neighbors: ", self.neighbors)
+                # print("in current door... dir: ", dir)
+                # print("in current door... location_map[dir]: ", Room.location_map[dir])
                 return self.neighbors[self.direction_map[dir]]
 
         return -1
@@ -186,12 +195,12 @@ class Room:
                     print(" ", end='')
             print()
 
-    def get_user_position_after_enter(self, prev_id):
-        """ returns the position in this room where the user should be if it entered from room with prev_id"""
-
-        if prev_id in self.neighbors:
-            entry_position = self.location_map[self.direction_map_2[self.neighbors.index(prev_id)]]
-            print("You should land at :", entry_position)
-            return entry_position
-        else:
-            return [1,1]  # get in corner if not valid LOLS
+    # def get_user_position_after_enter(self, prev_id):
+    #     """ returns the position in this room where the user should be if it entered from room with prev_id"""
+    #
+    #     if prev_id in self.neighbors:
+    #         entry_position = Room.location_map[self.direction_map_2[self.neighbors.index(prev_id)]]
+    #         print("You should land at :", entry_position)
+    #         return entry_position
+    #     else:
+    #         return [1,1]  # get in corner if not valid LOLS
