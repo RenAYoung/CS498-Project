@@ -5,14 +5,23 @@ from map import Map
 from datetime import datetime
 from item_list import array_of_items
 from enemy_list import list_of_enemies
+import story
 
 
 # global variables
 
 def run_game():
     game_status = ''
+    
+    # create character
     character = myCharacter("name", 10, 10, 0, 0, 6, None, None)
+    
+    # go through first phase of story
+    story.begin_story()
+    character.sword_equip(item_list.wooden_stick)
+    character.sheild_equip(item_list.wooden_plank)
 
+    # set up item and enemy probabilities
     item_probs = [1] * len(array_of_items)
     enemy_probs = [1] * len(list_of_enemies)
     while True:
@@ -23,27 +32,7 @@ def run_game():
             while (True):
                 if m.getStatus() != 'PLAYING':
                     end_game(m.getStatus())
-
-    # num_maps = 3
-    #
-    # map1arr = Map(room_height = 6, room_width = 8)
-    # map2arr = Map(room_height = 6, room_width = 8)
-    # map3arr = Map(room_height = 6, room_width = 8)
-    #
-    # map_list = [map1arr, map2arr, map3arr]
-    #
-    #
-    # while True:
-    #
-    #     for i in range(len(map_list)):
-    #         curr_map = map_list[i]
-    #         while True:
-    #             curr_map.current_room.print_room()
-    #             curr_map.print_move_prompt()
-
-            
-
-            
+                    
         break
 
 
@@ -132,7 +121,7 @@ def show_start_menu():
         "(Q)uit\n" \
         "Input: "
     print('-------------------------')
-    print('|  CS 498 Project Game  |')
+    print('|    The Quest Begins   |')
     print('-------------------------')
     while True:
         choice = input(prompt_string)[0].upper()
@@ -160,5 +149,5 @@ if __name__ == '__main__':
     player.sword_equip(item_list.basic_sword)
     player.sheild_equip(item_list.basic_shield)
     player.add_item("s potion")
-    end_game("WON")
-    #show_start_menu()
+    #end_game("WON")
+    show_start_menu()
