@@ -32,12 +32,12 @@ class myCharacter:
             print("Inventory is empty")
 
     def show_inv(self):
-        print("-" * 120)
+        print("-" * 60)
         print("Inventory: ")
         for item, count in self.inventory.items():
-            if count > 0:
+            if count:
                 print(f" {item} {count}")
-        print("-" * 120)
+        print("-" * 60)
 
     def use_potion(self, potion):
         # get potion healing amount
@@ -73,7 +73,6 @@ class myCharacter:
         print("Damage: " + str(self.damage))
         print("Sword: " + self.item_sword.name)
         print("Shield: " + self.item_shield.name)
-        print("Inventory - " + str(len(self.inventory)) + " item(s):")
         self.show_inv()
 
 

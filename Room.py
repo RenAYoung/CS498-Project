@@ -65,7 +65,7 @@ class Room:
 
     def set_final_door(self):
         self.final_door_cells = []
-        self.final_door_cells.append((self.height // 2, self.width // 2))
+        self.final_door_cells.append([self.height // 2, self.width // 2])
 
         # exit_loc = randpoint(self.height, self.width)
         # while exit_loc in self.items or exit_loc in self.enemies:
@@ -132,13 +132,7 @@ class Room:
     def current_door(self):
         for dir in ['top', 'bottom', 'left', 'right']:
             if self.has_door(dir) and self.user_location == Room.location_map[dir]:
-                # print("in current door... room id: ", self.id)
-                # print("in current door... user loc: ", self.user_location)
-                # print("in current door... neighbors: ", self.neighbors)
-                # print("in current door... dir: ", dir)
-                # print("in current door... location_map[dir]: ", Room.location_map[dir])
                 return self.neighbors[self.direction_map[dir]]
-
         return -1
 
     def current_enemy(self):
@@ -179,8 +173,8 @@ class Room:
                         print("!", end='')
                     elif (row_num, col_num) in self.items:  # Item locations
                         print("?", end='')
-                    elif self.is_final_room and (row_num, col_num) in self.final_door_cells:
-                        print("E", end='')
+                    elif self.is_final_room and [row_num, col_num] in self.final_door_cells:
+                        print("X", end='')
                     else:  # middle of each cell
                         print(" ", end='')
                 # horizontal border of cells
@@ -194,13 +188,3 @@ class Room:
                 else:
                     print(" ", end='')
             print()
-
-    # def get_user_position_after_enter(self, prev_id):
-    #     """ returns the position in this room where the user should be if it entered from room with prev_id"""
-    #
-    #     if prev_id in self.neighbors:
-    #         entry_position = Room.location_map[self.direction_map_2[self.neighbors.index(prev_id)]]
-    #         print("You should land at :", entry_position)
-    #         return entry_position
-    #     else:
-    #         return [1,1]  # get in corner if not valid LOLS

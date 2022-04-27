@@ -27,14 +27,14 @@ class Map:
         self.current_room = random.choice([*self.rooms.values()])
 
         self.actions = {
-            'U': 'move_user_up',
-            'D': 'move_user_down',
-            'L': 'move_user_left',
-            'R': 'move_user_right',
+            'W': 'move_user_up',
+            'S': 'move_user_down',
+            'A': 'move_user_left',
+            'D': 'move_user_right',
             'Q': 'quit_game',
             'E': 'move_rooms',
             'P': 'pick_up_item',
-            'S': 'show_info',
+            'I': 'show_info',
             'X': 'final_exit'
         }
 
@@ -45,7 +45,7 @@ class Map:
         while len(vis) < self.num_rooms:  # iterate until all rooms made
             # instantiate new room and add to rooms dict
             rooms[pos] = Room(self.item_probs, self.enemy_probs, room_id=len(vis), height=self.room_height,
-                              width=self.room_width, is_final_room=(len(vis) == self.num_rooms))
+                              width=self.room_width, is_final_room=(len(vis) == 0))
             vis.add(pos)  # add new position
             sx, sy = pos  # get x, y of last room
             # set change to 0s
@@ -54,7 +54,7 @@ class Map:
             counter = 0
             while pos in vis:  # retry until pos of room is unique
                 if counter > 6:  # branch off of another room if this one is being difficult
-                    vis_without_pos = (x for x in vis if x != pos)
+                    vis_without_pos = vis - {pos}
                     pos = random.choice(vis_without_pos)
                 # set new room pos to a neighbor of last room added (pos)
                 for dx, dy in random.sample(self.deltas, len(self.deltas)):
@@ -88,7 +88,7 @@ class Map:
         return self.game_status
 
     def is_room_action(self, choice):
-        return choice in 'UDLR'
+        return choice in 'WASD'
 
     def pick_up_item(self):
         item = self.current_room.pick_up_item()
@@ -109,24 +109,16 @@ class Map:
         for room in self.rooms.values():
             if room.id == next_id:
                 self.current_room = room
-                bing = ['top', 'bottom', 'left', 'right']
-                location_map1 = {
-                    'top': [0, 9 // 2],
-                    'right': [7 // 2, 9 - 1],
-                    'bottom': [7 - 1, 9 // 2],
-                    'left': [7 // 2, 0]
-                }
-
-                for dir in bing:
+                for dir in ['top', 'bottom', 'left', 'right']:
                     if self.current_room.neighbors[self.current_room.direction_map[dir]] == curr_id:
                         # print("bing[bing.index(dir)]", bing[bing.index(dir)])
-                        next_user_location = location_map1[bing[bing.index(dir)]]
+                        next_user_location = list(Room.location_map[dir])
                         break
                 break
         self.current_room.user_location = next_user_location
 
     def generate_options(self):
-        options = {'U': 'p', 'D': 'own', 'L': 'eft', 'R': 'ight', 'Q': 'uit', 'S': 'how info'}
+        options = {'W': 'Up', 'S': 'Down', 'A': 'Left', 'D': 'Right', 'Q': 'Quit', 'I': 'Info'}
         curr_door = self.current_room.current_door()
         if curr_door != -1:
             options['E'] = 'nter'
@@ -135,21 +127,22 @@ class Map:
         if curr_item is not None:
             options['P'] = f'ick up {str(curr_item)}'
 
-        if self.current_room.user_location == self.current_room.final_door_cells[0]:
+        # print(self.current_room.user_location, self.current_room.final_door_cells[0] if self.current_room.is_final_room else [])
+        if self.current_room.is_final_room and self.current_room.user_location == self.current_room.final_door_cells[0]:
             options['X'] = 'it the map'
         return options
 
     def generate_prompt_string(self, options):
-        commands = [f'({opt}){rest}' for opt, rest in options.items()]
-        return '\n'.join(commands + ['\t>> '])
+        commands = [f'({opt}) {rest}' for opt, rest in options.items()]
+        return '\n'.join(commands)
 
     def print_move_prompt(self):
         options = self.generate_options()
         prompt_string = self.generate_prompt_string(options)
+        print(prompt_string)
 
         while True:
-            # print(f'current room id: {self.current_room.id} | neighbors: {self.current_room.neighbors} | current_door() {self.current_room.current_door()}')
-            user_input = input(prompt_string).upper()
+            user_input = input('\t>> ').upper()
             choice = user_input and user_input[0]
 
             if choice in options:
@@ -169,9 +162,9 @@ class Map:
                         self.game_status = 'LOST'
                 break
             else:
-                print("-" * 120)
+                print("-" * 60)
                 print("Invalid option, try again.")
-                print("-" * 120)
+                print("-" * 60)
 
     def run(self):
         while self.game_status == 'PLAYING':
