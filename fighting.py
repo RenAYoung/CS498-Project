@@ -31,6 +31,9 @@ def fight(player, curr_enemy):
         while action not in valid_options:
             # print health info
             print("\nYour Health:", player.health)
+            print("Your Max Health:", player.max_health)
+            print("Your Attack:", player.damage)
+            print("Your Defense:", player.defense)
             print(curr_enemy.name, "Health:", curr_enemy.health)
             
             # print options
@@ -68,7 +71,7 @@ def fight(player, curr_enemy):
         return 0
     # return 1 if enemy died
     elif curr_enemy.health < 1:
-        print("Congrats! You defeated the villian. The valley of plenty should toss you a coin.")
+        print("\nCongrats! You defeated the villian. The valley of plenty should toss you a coin.")
         return 1
     # return 2 if neither died
     else: 
@@ -100,8 +103,69 @@ def attack_enemy(player, curr_enemy):
 
 # function for using an item
 def use_item(player):
-    # call function from character class
-    player.use_item()
+    
+    if len(player.inventory) <= 0:
+        print("Inventory is empty")
+        print("You have", player.health, "health.")
+    else:
+        print("\nInventory: ")
+        player.show_inv()
+            
+        print("---------------")
+        for item, count in player.inventory.items():
+            if count > 0: 
+                beginning = item.name[:2].upper()
+                rest = item.name[2:]
+                print("(" + beginning + ")" + rest)
+
+        choice = input("Input which item you would like to use: ").upper()
+        val_choice = False
+            
+        while val_choice != True:
+                
+            for item, count in player.inventory.items():
+
+                if choice == item.name[:2].upper():
+                    val_choice = True
+    
+                if val_choice == True:
+                    # check for health recovery item
+                    if item.health_recovery > 0:
+                        # use the potion
+                        player.use_potion(item)
+                    
+                        print("Your health:", player.health)
+                    # check for max health increasing item
+                    elif item.health_max_inc > 0:
+                        # update player's max health
+                        player.max_health += item.health_max_inc
+                        # update player's current health
+                        player.health += item.health_max_inc
+                        # remove item from inventory
+                        player.del_item(item)
+                    
+                        print("Your health:", player.health)
+                    # check for sword
+                    elif item.attack > 0:
+                        # equip sword
+                        player.sword_equip(item)
+                        # remove item from inventory
+                        player.del_item(item)
+                        
+                        print("Your attack has increased to", player.damage)
+                    # check for shield
+                    elif item.defense > 0:
+                        # equip shield
+                        player.sheild_equip(item)
+                        # remove item from inventory
+                        player.del_item(item)
+                        
+                        print("Your defense has increased to", player.defense)
+                    break
+                
+            if val_choice != True:
+                choice = input("Invalid choice. Try again: ")
+        
 
 
 
@@ -141,11 +205,11 @@ def flee_fight(player, curr_enemy):
 # function for the enemy attacking the player
 def enemy_attack(player, curr_enemy):
     
-    time.sleep(2)
+    time.sleep(1.5)
     
     print("\nEnemy is attacking. \n")
     
-    time.sleep(2)
+    time.sleep(1)
     
     # get enemy attack value
     damage = curr_enemy.damage
@@ -175,8 +239,10 @@ def enemy_attack(player, curr_enemy):
 def test():
     c = character.myCharacter("lol", 10, 8, 2, 3, 5, None, None)
     en = enemy.Enemy("oof", 15, 4)
-    c.add_item("sm potion")
-    c.add_item("med potion")
+    c.add_item(itlist.small_potion)
+    c.add_item(itlist.medium_potion)
+    c.add_item(itlist.magic_star)
+    c.add_item(itlist.basic_sword)
     #c.add_item("sm potion")
     print(len(c.inventory))
     

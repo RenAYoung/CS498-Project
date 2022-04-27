@@ -26,7 +26,8 @@ class myCharacter:
             if self.inventory[item] > 0:
                 self.inventory[item] -= 1
             else:
-                print("You do not have anymore of that item")
+                #print("You do not have anymore of that item")
+                pass
         else:
             print("Inventory is empty")
 
@@ -34,54 +35,25 @@ class myCharacter:
         print("-" * 120)
         print("Inventory: ")
         for item, count in self.inventory.items():
-            print(f" {item} {count}")
+            if count > 0:
+                print(f" {item} {count}")
         print("-" * 120)
 
-    def use_item(self):
-        if len(self.inventory) <= 0:
-            print("Inventory is empty")
-            print("You have", self.health, "health.")
+    def use_potion(self, potion):
+        # get potion healing amount
+        heal_amount = potion.health_recovery
+        
+        # check for full health
+        if self.health == self.max_health:
+            print("Your health is full")
+        # if difference between current and max health is greater than potion amount
+        elif (self.max_health - self.health) > heal_amount:
+            self.health += heal_amount # add potion amount
+            self.del_item(potion)
+        # if difference between current and max health is less than potion amount
         else:
-            print("\nInventory: ")
-            self.show_inv()
-            
-            print("---------------")
-            for item, count in self.inventory.items():
-                beginning = item.name[0].upper()
-                rest = item.name[1:]
-                print("(" + beginning + ")" + rest)
-            print("(Q)uit")
-
-            choice = input("Input which item you would like to use: ").upper()
-            val_choice = False
-            
-            while val_choice != True:
-
-                if choice in "Q":
-                    break
-                
-                for item, count in self.inventory.items():
-                    if choice == item[0].upper():
-                        val_choice = True
-    
-                        if self.health == self.max_health:
-                            print("Your health is full")
-                            break
-
-                        heal_amount = item.health_recovery
-                        if (self.max_health - self.health) > heal_amount:
-                            self.health += heal_amount
-                        else:
-                            self.health = self.max_health
-                        self.del_item(item)
-                    
-                    if val_choice == True:
-                        break
-                
-                if val_choice != True:
-                    choice = input("Invalid choice. Try again: ")
-                
-            print("You have", self.health, "health.")
+            self.health = self.max_health # go back to full health
+            self.del_item(potion)
 
     def sword_equip(self, sword):
         if self.item_sword != None:
@@ -108,10 +80,10 @@ class myCharacter:
 ## this is to test this file of code
 def test():
     c = myCharacter("lol", 12, 12, 0, 0, 5, None, None)
-    c.add_item("small_potion")
-    c.add_item("medium_potion")
-    c.add_item("small_potion")
-    c.use_item()
+    c.add_item(item_list.small_potion)
+    c.add_item(item_list.medium_potion)
+    c.add_item(item_list.small_potion)
+    c.use_potion()
     '''
     print(c.damage)
     c.sword_equip(item_list.wooden_stick)
