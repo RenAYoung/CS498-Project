@@ -39,19 +39,29 @@ class Map:
 
 	def generate_rooms(self):
 		rooms = {}
-		pos = randpoint(self.height, self.width)
+		pos = (self.height//2, self.width//2)  # first room in middle of map
 		vis = set()
-		while len(vis) < self.num_rooms:
-			if pos in vis: break
-			rooms[pos] = Room(self.item_probs, self.enemy_probs, room_id=len(vis), height=self.room_height, width=self.room_width, is_final_room=(len(vis) == 0))
-			vis.add(pos)
-			sx, sy = pos
-			for dx, dy in random.sample(self.deltas, len(self.deltas)):
-				nx = sx + dx
-				ny = sy + dy
+		while len(vis) < self.num_rooms:  # iterate until all rooms made
+			# instantiate new room and add to rooms dict
+			rooms[pos] = Room(self.item_probs, self.enemy_probs, room_id=len(vis), height=self.room_height, width=self.room_width, is_final_room=(len(vis) == self.num_rooms))
+			vis.add(pos)  # add new position
+			sx, sy = pos  # get x, y of last room
+			# set change to 0s
+			nx = 0
+			ny = 0
+			counter = 0
+			while pos in vis:  # retry until pos of room is unique
+				if counter > 6:  # branch off of another room if this one is being difficult
+					vis_without_pos = (x for x in vis if x != pos)
+					pos = random.choice(vis_without_pos)
+				# set new room pos to a neighbor of last room added (pos)
+				for dx, dy in random.sample(self.deltas, len(self.deltas)):
+					nx = sx + dx
+					ny = sy + dy
+				# make sure new pos fits within map
 				if 0 <= nx < self.height and 0 <= ny < self.width:
 					pos = (nx, ny)
-					break
+				counter += 1
 
 		for i in range(self.height):
 			for j in range(self.width):
@@ -97,8 +107,8 @@ class Map:
 		for room in self.rooms.values():
 			if room.id == next_id:
 				self.current_room = room
-				user_new_location = self.current_room.get_user_position_after_enter(curr_id)
-				self.current_room.user_location = user_new_location
+				# user_new_location = self.current_room.get_user_position_after_enter(curr_id)
+				# self.current_room.user_location = user_new_location
 
 				# for dir in ['top', 'bottom', 'left', 'right']:
 				# 	if self.current_room.neighbors[self.current_room.direction_map[dir]] == curr_id:
@@ -106,7 +116,7 @@ class Map:
 				# 		break
 				# break
 
-				# self.current_room.user_location = [1,1]
+				self.current_room.user_location = [1,1]
 
 	def generate_options(self):
 		options = {'U': 'p', 'D': 'own', 'L': 'eft', 'R': 'ight', 'Q': 'uit', 'S': 'how info'}
@@ -131,7 +141,7 @@ class Map:
 		prompt_string = self.generate_prompt_string(options)
 
 		while True:
-			print(f'{self.current_room.id=} {self.current_room.neighbors} {self.current_room.current_door()}')
+			print(f'current room id: {self.current_room.id} | neighbors: {self.current_room.neighbors} | current_door() {self.current_room.current_door()}')
 			user_input = input(prompt_string).upper()
 			choice = user_input and user_input[0]
 
