@@ -4,7 +4,8 @@ from collections import Counter
 import item_list
 
 class myCharacter:
-    def __init__(self, name, max_health, health, damage, defense, inventory_size, item_sword, item_shield, num_killed):
+    def __init__(self, name, max_health=20, health=20, damage=10, defense=0, inventory_size=5, item_sword=None,
+                 item_shield=None, num_killed=None):
         self.name = name
         self.max_health = max_health
         self.health = health
@@ -78,6 +79,18 @@ class myCharacter:
 
     def slay(self):
         self.num_killed += 1
+
+    def reset_character(self):
+        self.max_health = 20
+        self.health = health
+        self.damage = damage
+        self.defense = defense
+        self.inventory_size = inventory_size
+        self.inventory = Counter()
+        self.item_sword = item_sword
+        self.item_shield = item_shield
+        self.num_killed = num_killed
+
 
 
 ## this is to test this file of code

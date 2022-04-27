@@ -16,8 +16,10 @@ def fight(player, curr_enemy):
     
     # variable for checking if player successfully fled or not
     flee_status = False
-    
-    print('\nfight time! you\'ve approached the', curr_enemy.name)
+
+    print("-"*60)
+    print('\nFight time! You\'ve approached the', curr_enemy.name)
+    print("-" * 60)
     
     # loop that continues while 
     # - player is not dead
@@ -43,7 +45,8 @@ def fight(player, curr_enemy):
                 print("(U)se Item")
                 valid_options = 'AUF'
             print("(F)lee")
-            action = input("Enter Choice: ")[0].upper()
+            print()
+            action = input("\t>> ")[0].upper()
             
             if action not in valid_options:
                 # user input a choice that was not listed, so they need to be reprompted
@@ -194,12 +197,16 @@ def flee_fight(player, curr_enemy):
     # if flee successful
     if flee_res <= flee_chance:
         # flee
-        print("fled. heck yeah!")
+        print("-" * 60)
+        print("You've Fled the Fight!")
+        print("-" * 60)
         return True
     # else
     else:
         # print failure message
-        print("failed to flee. oof")
+        print("-" * 60)
+        print("Failed to flee. OOF!")
+        print("-" * 60)
         return False
         
 

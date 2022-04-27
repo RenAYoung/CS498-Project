@@ -10,11 +10,12 @@ import story
 
 # global variables
 
-def run_game():
+def run_game(player):
     game_status = ''
     
     # create character
     # character = myCharacter("name", 10, 10, 0, 0, 6, None, None, 0)
+    player = myCharacter(player.name)
     
     # go through first phase of story
     # story.begin_story()
@@ -49,13 +50,13 @@ def end_game(game_status):
     print('Results')
     print("-"*60)
     player.display_info()
-    print("-------------------------")
     print('Number of enemies defeated:', player.num_killed)
     print()
 
     # provide option for game result download
     while True:
-        res_down_choice = input('Would you like to download your game results? (y/n): ')
+        print("Would you like to download your game results? (y/n): ")
+        res_down_choice = input('\t>> ')
         if res_down_choice in 'Yy':
             file_name = input("Enter name of file for results to go to (ex: results.txt): ")
             out_file = open(file_name, "a")
@@ -88,6 +89,7 @@ def end_game(game_status):
     input('Press enter to return to starting menu')
     show_start_menu()
 
+
 def options():
     print()
     print("Options")
@@ -97,6 +99,7 @@ def options():
     player.name = new_name
     input('Press enter to return to starting menu')
     show_start_menu()
+
 
 def how_to_play():
     print()
@@ -118,7 +121,7 @@ def show_start_menu():
         "(O)ptions\n" \
         "(H)ow to Play\n" \
         "(Q)uit\n" \
-        "Input: "
+        '\t>> '
     print('-------------------------')
     print('|    The Quest Begins   |')
     print('-------------------------')
@@ -127,7 +130,7 @@ def show_start_menu():
         choice = choice and choice[0].upper()
         if choice == 'S':
             print()
-            run_game()
+            run_game(player)
             break
         elif choice == 'O':
             print()
@@ -145,8 +148,7 @@ def show_start_menu():
 
 
 if __name__ == '__main__':
-    player = myCharacter("Coolio", 20, 20, 10, 0, 5, None, None, 0)
+    player = myCharacter("Coolio")
     player.sword_equip(item_list.basic_sword)
     player.sheild_equip(item_list.basic_shield)
-    #end_game("WON")
     show_start_menu()
