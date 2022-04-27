@@ -24,16 +24,16 @@ def run_game():
     # set up item and enemy probabilities
     item_probs = [1] * len(array_of_items)
     enemy_probs = [1] * len(list_of_enemies)
-    while True:
-        num_maps = 1
-        for i in range(num_maps):
-            m = Map(character, item_probs, enemy_probs)
-            m.run()
-            while (True):
-                if m.getStatus() != 'PLAYING':
-                    end_game(m.getStatus())
-                    
-        break
+    
+    num_maps = 1
+    for i in range(num_maps):
+        m = Map(character, item_probs, enemy_probs)
+        m.run()
+        if m.getStatus() == 'LOST':
+            end_game(m.getStatus())
+            break
+    else:
+        end_game('WON')
 
 
 def end_game(game_status):
