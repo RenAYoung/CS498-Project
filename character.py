@@ -4,7 +4,7 @@ from collections import Counter
 import item_list
 
 class myCharacter:
-    def __init__(self, name, max_health, health, damage, defense, inventory_size, item_sword, item_shield):
+    def __init__(self, name, max_health, health, damage, defense, inventory_size, item_sword, item_shield, num_killed):
         self.name = name
         self.max_health = max_health
         self.health = health
@@ -14,6 +14,7 @@ class myCharacter:
         self.inventory = Counter()
         self.item_sword = item_sword
         self.item_shield = item_shield
+        self.num_killed = num_killed
 
     def add_item(self, item):
         if len(self.inventory) < self.inventory_size:
@@ -75,6 +76,9 @@ class myCharacter:
         print("Shield: " + self.item_shield.name)
         print("Inventory - " + str(len(self.inventory)) + " item(s):")
         self.show_inv()
+
+    def slay(self):
+        self.num_killed += 1
 
 
 ## this is to test this file of code

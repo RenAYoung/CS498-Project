@@ -14,12 +14,12 @@ def run_game():
     game_status = ''
     
     # create character
-    character = myCharacter("name", 10, 10, 0, 0, 6, None, None)
+    # character = myCharacter("name", 10, 10, 0, 0, 6, None, None, 0)
     
     # go through first phase of story
     # story.begin_story()
-    character.sword_equip(item_list.wooden_stick)
-    character.sheild_equip(item_list.wooden_plank)
+    player.sword_equip(item_list.wooden_stick)
+    player.sheild_equip(item_list.wooden_plank)
 
     # set up item and enemy probabilities
     item_probs = [[1] * len(array_of_items)]
@@ -27,7 +27,7 @@ def run_game():
 
     num_maps = 1
     for i in range(num_maps):
-        m = Map(character, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=5)
+        m = Map(player, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=5)
         m.run()
         if m.get_status() == 'LOST':
             end_game(m.get_status())
@@ -146,7 +146,7 @@ def show_start_menu():
 
 
 if __name__ == '__main__':
-    player = myCharacter("Coolio", 20, 20, 10, 0, 5, None, None)
+    player = myCharacter("Coolio", 20, 20, 10, 0, 5, None, None, 0)
     player.sword_equip(item_list.basic_sword)
     player.sheild_equip(item_list.basic_shield)
     player.add_item("s potion")
