@@ -46,7 +46,10 @@ def fight(player, curr_enemy):
                 valid_options = 'AUF'
             print("(F)lee")
             print()
-            action = input("\t>> ")[0].upper()
+            try:
+                action = input("\t>> ")[0].upper()
+            except:
+                action = 'X'
             
             if action not in valid_options:
                 # user input a choice that was not listed, so they need to be reprompted
