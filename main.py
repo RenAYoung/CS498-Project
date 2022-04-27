@@ -17,17 +17,17 @@ def run_game():
     character = myCharacter("name", 10, 10, 0, 0, 6, None, None)
     
     # go through first phase of story
-    story.begin_story()
+    # story.begin_story()
     character.sword_equip(item_list.wooden_stick)
     character.sheild_equip(item_list.wooden_plank)
 
     # set up item and enemy probabilities
-    item_probs = [1] * len(array_of_items)
-    enemy_probs = [1] * len(list_of_enemies)
-    
+    item_probs = [[1] * len(array_of_items)]
+    enemy_probs = [[1] * len(list_of_enemies)]
+
     num_maps = 1
     for i in range(num_maps):
-        m = Map(character, item_probs, enemy_probs, room_height=6, room_width=8)
+        m = Map(character, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=3)
         m.run()
         if m.get_status() == 'LOST':
             end_game(m.get_status())
@@ -124,7 +124,8 @@ def show_start_menu():
     print('|    The Quest Begins   |')
     print('-------------------------')
     while True:
-        choice = input(prompt_string)[0].upper()
+        choice = input(prompt_string)
+        choice = choice and choice[0].upper()
         if choice == 'S':
             print('choice was s')
             run_game()

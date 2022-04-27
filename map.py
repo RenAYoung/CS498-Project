@@ -34,7 +34,7 @@ class Map:
 			'E': 'move_rooms',
 			'P': 'pick_up_item',
 			'S': 'show_inventory',
-			'F': 'final_exit'
+			'X': 'final_exit'
 		}
 
 	def generate_rooms(self):
@@ -93,17 +93,20 @@ class Map:
 	def move_rooms(self):
 		curr_id = self.current_room.id
 		next_id = self.current_room.current_door()
+		self.current_room.user_location = [-1,-1]
 		for room in self.rooms.values():
 			if room.id == next_id:
 				self.current_room = room
 				user_new_location = self.current_room.get_user_position_after_enter(curr_id)
 				self.current_room.user_location = user_new_location
 
-				for dir in ['top', 'bottom', 'left', 'right']:
-					if self.current_room.neighbors[self.current_room.direction_map[dir]] == curr_id:
-						self.current_room.user_location = self.current_room.location_map[dir]
-						break
-				break
+				# for dir in ['top', 'bottom', 'left', 'right']:
+				# 	if self.current_room.neighbors[self.current_room.direction_map[dir]] == curr_id:
+				# 		self.current_room.user_location = self.current_room.location_map[dir]
+				# 		break
+				# break
+
+				# self.current_room.user_location = [1,1]
 
 	def generate_options(self):
 		options = {'U': 'p', 'D': 'own', 'L': 'eft', 'R': 'ight', 'Q': 'uit', 'S': 'how inventory'}
@@ -114,6 +117,9 @@ class Map:
 		# print(curr_item)
 		if curr_item is not None:
 			options['P'] = f'ick up {str(curr_item)}'
+
+		if self.current_room.user_location == self.current_room.final_door_cells[0]:
+			options['X'] = 'it the map'
 		return options
 
 	def generate_prompt_string(self, options):
