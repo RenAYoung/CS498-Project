@@ -27,10 +27,10 @@ def run_game():
     
     num_maps = 1
     for i in range(num_maps):
-        m = Map(character, item_probs, enemy_probs)
+        m = Map(character, item_probs, enemy_probs, room_height=6, room_width=8)
         m.run()
-        if m.getStatus() == 'LOST':
-            end_game(m.getStatus())
+        if m.get_status() == 'LOST':
+            end_game(m.get_status())
             break
     else:
         end_game('WON')
