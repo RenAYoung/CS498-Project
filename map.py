@@ -65,6 +65,9 @@ class Map:
 
 		return rooms
 
+	def quit_game(self):
+		self.game_status = 'LOST'
+
 	def final_exit(self):
 		print("exiting final door")
 		self.game_status = 'WON'
@@ -76,10 +79,16 @@ class Map:
 		return choice in 'UDLR'
 
 	def pick_up_item(self):
-		self.character.add_item(self.current_room.pick_up_item())
+		item = self.current_room.pick_up_item()
+		# if item.health_recovery:
+		# 	item.apply_effect(self.character)
+		# 	# self.character.use_item(item)
+		# else:
+		self.character.add_item(item)
 
 	def show_inventory(self):
 		self.character.show_inv()
+		input()
 
 	def move_rooms(self):
 		curr_id = self.current_room.id
@@ -142,11 +151,9 @@ class Map:
 				print("-" * 120)
 
 	def run(self):
-		while True:
+		while self.game_status == 'PLAYING':
 			self.current_room.print_room()
 			self.print_move_prompt()
-			# if they go to the ennd:
-			# 	reutner True
 
 
 

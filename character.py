@@ -47,8 +47,8 @@ class myCharacter:
             
             print("---------------")
             for item, count in self.inventory.items():
-                beginning = item_list.dict_of_items[item].name[0].upper()
-                rest = item_list.dict_of_items[item].name[1:]
+                beginning = item.name[0].upper()
+                rest = item.name[1:]
                 print("(" + beginning + ")" + rest)
             print("(Q)uit")
 
@@ -68,7 +68,7 @@ class myCharacter:
                             print("Your health is full")
                             break
 
-                        heal_amount = item_list.dict_of_items[item].health_recovery
+                        heal_amount = item.health_recovery
                         if (self.max_health - self.health) > heal_amount:
                             self.health += heal_amount
                         else:
