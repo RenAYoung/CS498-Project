@@ -170,7 +170,7 @@ class Room:
                         print("!", end='')
                     elif (row_num, col_num) in self.items:  # Item locations
                         print("?", end='')
-                    elif (row_num, col_num) in self.final_door_cells:
+                    elif self.is_final_room and (row_num, col_num) in self.final_door_cells:
                         print("E", end='')
                     else:  # middle of each cell
                         print(" ", end='')
