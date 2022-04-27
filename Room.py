@@ -171,7 +171,7 @@ class Room:
                     elif (row_num, col_num) in self.items:  # Item locations
                         print("?", end='')
                     elif (row_num, col_num) in self.final_door_cells:
-                        print(" ", end='')
+                        print("E", end='')
                     else:  # middle of each cell
                         print(" ", end='')
                 # horizontal border of cells
