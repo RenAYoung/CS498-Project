@@ -17,7 +17,7 @@ def fight(player, curr_enemy):
     # variable for checking if player successfully fled or not
     flee_status = False
     
-    print('fight time!')
+    print('\nfight time! you\'ve approached the', curr_enemy.name)
     
     # loop that continues while 
     # - player is not dead
@@ -31,7 +31,7 @@ def fight(player, curr_enemy):
         while action not in valid_options:
             # print health info
             print("\nYour Health:", player.health)
-            print("Enemy Health:", curr_enemy.health)
+            print(curr_enemy.name, "Health:", curr_enemy.health)
             
             # print options
             print("\n(A)ttack")
@@ -52,7 +52,7 @@ def fight(player, curr_enemy):
             attack_enemy(player, curr_enemy)
         elif action in 'U' and len(player.inventory) > 0:
             # call use item function
-            use_item(player, curr_enemy)
+            use_item(player)
         elif action in 'F':
             # call flee function
             flee_status = flee_fight(player, curr_enemy)
@@ -64,9 +64,11 @@ def fight(player, curr_enemy):
 
     # return 0 if player died
     if player.health < 1:
+        print("You have died. Sad times.")
         return 0
     # return 1 if enemy died
     elif curr_enemy.health < 1:
+        print("Congrats! You defeated the villian. The valley of plenty should toss you a coin.")
         return 1
     # return 2 if neither died
     else: 
@@ -97,40 +99,9 @@ def attack_enemy(player, curr_enemy):
 
 
 # function for using an item
-def use_item(player, curr_enemy):
-    
-    print("\nInventory: ")
-    # display inventory for player
-    player.show_inv()
-        
-    # ask user to type in first letter of item
-    choice = input("Which item would you like to use? (type first letter): ")
-    val_choice = False
-        
-    # loop while choice not matching valid option
-    while val_choice != True:
-        
-        # loop through items and check if one matches
-        for item, count in player.inventory.items():
-            # check if choice found
-            if choice == item[0]:
-                val_choice = True
-                # get amount to heal from item
-                heal_amount = itlist.dict_of_items[item].health_recovery
-                # add health recovery amount up to max health
-                if (player.max_health - player.health) > heal_amount: # if less, add healing
-                    player.health += heal_amount
-                else: # if greater than difference, just set back to max
-                    player.health = player.max_health
-                player.del_item(item)
-            
-            if val_choice == True:
-                break
-        
-        if val_choice != True:
-            choice = input("Invalid choice. Try again (type first letter): ")
-        
-    print("You have", player.health, "health.")
+def use_item(player):
+    # call function from character class
+    player.use_item()
 
 
 
@@ -185,9 +156,9 @@ def enemy_attack(player, curr_enemy):
         
     # if player's health (+def) is less than damage amount
     if (player.health + player.defense) < damage:
+        print("Enemy did", player.health + player.defense, "damage.")
         # player's health becomes 0
         player.health = 0
-        print("Enemy did", player.health + player.defense, "damage.")
     # else - if player's health (+def) is greater than or equal to damage amount
     # but, defense is less than damage
     elif player.defense < damage:
@@ -204,8 +175,8 @@ def enemy_attack(player, curr_enemy):
 def test():
     c = character.myCharacter("lol", 10, 8, 2, 3, 5, None, None)
     en = enemy.Enemy("oof", 15, 4)
-    #c.add_item("sm potion")
-    #c.add_item("med potion")
+    c.add_item("sm potion")
+    c.add_item("med potion")
     #c.add_item("sm potion")
     print(len(c.inventory))
     
