@@ -13,12 +13,12 @@ import story
 def run_game(player):
     game_status = ''
     
-    # create character
-    # character = myCharacter("name", 10, 10, 0, 0, 6, None, None, 0)
-    player = myCharacter(player.name)
+    
     
     # go through first phase of story
     # story.begin_story()
+    
+    # equip sword and shield
     player.sword_equip(item_list.wooden_stick)
     player.sheild_equip(item_list.wooden_plank)
 
@@ -31,13 +31,13 @@ def run_game(player):
         m = Map(player, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=5)
         m.run()
         if m.get_status() == 'LOST':
-            end_game(m.get_status())
+            end_game(player, m.get_status())
             break
     else:
-        end_game('WON')
+        end_game(player, 'WON')
 
 
-def end_game(game_status):
+def end_game(player, game_status):
     print()
     # print final game status
     if game_status == 'WON':
@@ -90,7 +90,7 @@ def end_game(game_status):
     show_start_menu()
 
 
-def options():
+def options(player):
     print()
     print("Options")
     print("----------------------")
@@ -116,6 +116,7 @@ def how_to_play():
 
 
 def show_start_menu():
+    player = myCharacter("Coolio")
     prompt_string = \
         "(S)tart\n" \
         "(O)ptions\n" \
@@ -134,7 +135,7 @@ def show_start_menu():
             break
         elif choice == 'O':
             print()
-            options()
+            options(player)
             break
         elif choice == 'H':
             print()
@@ -148,7 +149,4 @@ def show_start_menu():
 
 
 if __name__ == '__main__':
-    player = myCharacter("Coolio")
-    player.sword_equip(item_list.basic_sword)
-    player.sheild_equip(item_list.basic_shield)
     show_start_menu()

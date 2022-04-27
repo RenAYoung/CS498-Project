@@ -233,7 +233,7 @@ def enemy_attack(player, curr_enemy):
     if (player.health + player.defense) < damage:
         print("Enemy did", player.health + player.defense, "damage.")
         # player's health becomes 0
-        player.health = 0
+        player.update_health(0)
     # else - if player's health (+def) is greater than or equal to damage amount
     # but, defense is less than damage
     elif player.defense < damage:
@@ -249,7 +249,7 @@ def enemy_attack(player, curr_enemy):
 
 def test():
     c = character.myCharacter("lol", 10, 8, 2, 3, 5, None, None)
-    en = enemy.Enemy("oof", 15, 4)
+    en = enemy.Enemy("oof", 15, 30)
     c.add_item(itlist.small_potion)
     c.add_item(itlist.medium_potion)
     c.add_item(itlist.magic_star)
