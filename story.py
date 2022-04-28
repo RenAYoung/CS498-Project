@@ -39,21 +39,19 @@ def begin_story():
     
     input("\nOn that note, dear traveler, you have quite the journey ahead of you. \n")
 
+
 def inbtwn1_story():
     pass
+
 
 def inbtwn2_story():
     print("so it seems you may have overhead me previously speaking with ----. well, i guess i should tell you the full truth of the matter")
     pass
 
+
 def final_story():
     pass
 
+
 def death_story():
     pass
-
-
-def test():
-    begin_story()
-
-#test()

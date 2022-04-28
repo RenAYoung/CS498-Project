@@ -13,7 +13,7 @@ glowing_mysterious_liquid = Item('Glowing Mysterious Liquid', random.randint(1, 
 
 # Health Max Increasing
 magic_star = Item('Magic Star', 0, 10, 0, 0)
-star_drop_magic = Item('Star Drop (magic)', 0,15, 0, 0)
+star_drop_magic = Item('Star Drop (magic)', 0, 15, 0, 0)
 epic_magic_star = Item('Epic Magic Star', 0, 25, 0, 0)
 
 # Attack

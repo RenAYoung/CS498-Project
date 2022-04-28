@@ -1,6 +1,5 @@
 import random
 from Room import Room
-from utils import randpoint
 from fighting import fight
 
 
@@ -54,7 +53,7 @@ class Map:
             counter = 0
             while pos in vis:  # retry until pos of room is unique
                 if counter > 6:  # branch off of another room if this one is being difficult
-                    vis_without_pos = vis - {pos}
+                    vis_without_pos = list(vis - {pos})
                     pos = random.choice(vis_without_pos)
                 # set new room pos to a neighbor of last room added (pos)
                 for dx, dy in random.sample(self.deltas, len(self.deltas)):
@@ -114,27 +113,26 @@ class Map:
         for room in self.rooms.values():
             if room.id == next_id:
                 self.current_room = room
-                for dir in ['top', 'bottom', 'left', 'right']:
-                    if self.current_room.neighbors[self.current_room.direction_map[dir]] == curr_id:
-                        # print("bing[bing.index(dir)]", bing[bing.index(dir)])
-                        next_user_location = list(Room.location_map[dir])
+                for side in ['top', 'bottom', 'left', 'right']:
+                    if self.current_room.neighbors[self.current_room.direction_map[side]] == curr_id:
+                        next_user_location = list(Room.location_map[side])
                         break
                 break
         self.current_room.user_location = next_user_location
 
     def generate_options(self):
-        options = {'W': 'Up', 'S': 'Down', 'A': 'Left', 'D': 'Right', 'Q': 'Quit', 'I': 'Info'}
+        options = {'W': 'Up', 'A': 'Left', 'S': 'Down', 'D': 'Right', 'Q': 'Quit', 'I': 'Info'}
+        
         curr_door = self.current_room.current_door()
         if curr_door != -1:
-            options['E'] = 'nter'
+            options['E'] = 'Enter'
+        
         curr_item = self.current_room.current_item()
-        # print(curr_item)
         if curr_item is not None:
-            options['P'] = f'ick up {str(curr_item)}'
+            options['P'] = f'Pick up {str(curr_item)}'
 
-        # print(self.current_room.user_location, self.current_room.final_door_cells[0] if self.current_room.is_final_room else [])
         if self.current_room.is_final_room and self.current_room.user_location == self.current_room.final_door_cells[0]:
-            options['X'] = 'it the map'
+            options['X'] = 'Exit the map'
         return options
 
     def generate_prompt_string(self, options):

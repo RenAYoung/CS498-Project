@@ -1,6 +1,4 @@
-import math
 import random
-import item_list
 from utils import randpoint
 from enemy_list import list_of_enemies
 from item_list import array_of_items
@@ -14,17 +12,15 @@ class Room:
         'left': [7 // 2, 0]
     }
 
-    def __init__(self, item_probs, enemy_probs, user_entrance=[3, 2], room_id=0, height=9, width=15, max_items=4,
+    def __init__(self, item_probs, enemy_probs, user_entrance=(3, 2), room_id=0, height=9, width=15, max_items=4,
                  is_final_room=False):
-        self.user_location = user_entrance  # current location of user in room [row, col]
+        self.user_location = list(user_entrance)  # current location of user in room [row, col]
 
         # array of room ids [top, right, bottom, left]
         self.neighbors = [-1] * 4
         self.direction_map = {'top': 0, 'right': 1, 'bottom': 2, 'left': 3}
-        self.direction_map_2 = ['top','right','bottom','left']
-
-
-
+        self.direction_map_2 = ['top', 'right', 'bottom', 'left']
+        
         # dimensions for the room
         self.height = height
         self.width = width  # arrays of coords for enemies and items
@@ -59,7 +55,8 @@ class Room:
         num_items = random.randrange(self.max_items)
         for _ in range(num_items):
             item_loc = randpoint(self.height, self.width)
-            while item_loc in self.enemies or item_loc in self.items or item_loc in self.final_door_cells:  # make sure item placement is valid
+            # make sure item placement is valid
+            while item_loc in self.enemies or item_loc in self.items or item_loc in self.final_door_cells:
                 item_loc = randpoint(self.height, self.width)
             item_type = random.choices(array_of_items, weights=self.item_probs)[0]
             self.items[item_loc] = item_type
@@ -83,11 +80,11 @@ class Room:
         enemy_type = random.choices(list_of_enemies, weights=self.enemy_probs)[0]
         self.enemies[enemy_loc] = enemy_type
 
-    def connect(self, dir, other):
+    def connect(self, side, other):
         """ helper function to connect this room to another """
-        if dir in range(4):
-            self.neighbors[dir] = other.id
-            other.neighbors[(dir + 2) % 4] = self.id
+        if side in range(4):
+            self.neighbors[side] = other.id
+            other.neighbors[(side + 2) % 4] = self.id
         else:
             print('bad direction')
 
@@ -131,9 +128,9 @@ class Room:
             self.print_row(i)
 
     def current_door(self):
-        for dir in ['top', 'bottom', 'left', 'right']:
-            if self.has_door(dir) and self.user_location == Room.location_map[dir]:
-                return self.neighbors[self.direction_map[dir]]
+        for side in ['top', 'bottom', 'left', 'right']:
+            if self.has_door(side) and self.user_location == Room.location_map[side]:
+                return self.neighbors[self.direction_map[side]]
         return -1
 
     def current_enemy(self):
