@@ -104,22 +104,22 @@ def options(player):
 
 def how_to_play():
 	print()
-	print("How To Play")
-	print("----------------------")
-	print("When the game begins your character will spawn into a room in a randomly generated map.")
-	print("Your goal is to navigate through the various rooms to find the exit that leads to the next level.")
-	print("Along the way you will find items you can pick up or enemies that you can fight.")
-	print("To pick up an item, move your character over the item symbol and a prompt will appear to pick up the item.")
-	print(
-		"To fight an enemy, move your character to the enemy symbol and you will automatically be placed in a fight situation.")
-	print(
-		"In a fight you can attack, use an item, or flee. The fight ends when either you or the enemy is defeated, or when you successfully flee.")
-	print("In your terminal, your character, the room, and other entities will be displayed.")
-	print(
-		"Below the text-based imagery will be prompts providing you with different options to choose how you want to navigate the game.\n")
-	print("What the symbols mean in the map: ")
+	print(" | How To Play")
+	print("-"*100)
+	print(" - When the game begins your character will spawn into a room in a randomly generated map.")
+	print(" - There is a prompt at the bottom of the terminal that allows you to interact with the game.")
+	print(" - Use WASD keys to navigate through different rooms.")
+	print(" - Along the way you will find items (?) you can pick up or enemies (!) that you can fight.")
+	print(" - To interact with an enemy/item, move into the given entity.")
+	print()
+	print(" | Your Goal ")
+	print("-"*100)
+	print(" - Your goal is to find the final room in the dungeon and exit at the 'X' to escape.")
+	print()
+	print(" | What the symbols mean in the map: ")
+	print("-"*100)
 	print("U - your character\n? - an item\n! - an enemy\nX - the exit to go to the next level\n")
-	print("----------------------")
+	print()
 	input('Press enter to return to starting menu')
 
 
