@@ -168,6 +168,9 @@ class Map:
                 print("-" * 60)
 
     def run(self):
+        print("-"*100)
+        print("You've entered a new dungeon!")
+        print("-"*100)
         while self.game_status == 'PLAYING':
             self.current_room.print_room()
             self.print_move_prompt()
