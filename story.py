@@ -121,9 +121,6 @@ def final_story():
     input("Dear traveler, you have come far in your quest. "
           + "Because of your efforts you have given the kingdom back one of its lights. "
           + "All is well.")
-    
-final_story()
-
 
 
 
