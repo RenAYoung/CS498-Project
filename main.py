@@ -28,7 +28,7 @@ def run_game(player):
 	               [3, 4, 2, 0.5, 0.4, 0.1, 0, 0, 0],
 	               [3, 4, 2, 0.5, 0.4, 0.1, 0, 0, 0]]
 	
-	num_maps = 1
+	num_maps = len(item_probs)
 	for i in range(num_maps):
 		m = Map(player, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=5)
 		m.run()
@@ -100,7 +100,6 @@ def options(player):
 	print("----------------------")
 	player.name = new_name
 	input('Press enter to return to starting menu')
-	show_start_menu()
 
 
 def how_to_play():
@@ -119,10 +118,9 @@ def how_to_play():
 	print(
 		"Below the text-based imagery will be prompts providing you with different options to choose how you want to navigate the game.\n")
 	print("What the symbols mean in the map: ")
-	print("U - your character\n? - an item\n! - an enemy\nE - the exit to go to the next level\n")
+	print("U - your character\n? - an item\n! - an enemy\nX - the exit to go to the next level\n")
 	print("----------------------")
 	input('Press enter to return to starting menu')
-	show_start_menu()
 
 
 def show_start_menu():
@@ -146,11 +144,9 @@ def show_start_menu():
 		elif choice == 'O':
 			print()
 			options(player)
-			break
 		elif choice == 'H':
 			print()
 			how_to_play()
-			break
 		elif choice == 'Q':
 			print()
 			sys.exit(0)

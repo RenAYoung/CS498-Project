@@ -104,7 +104,7 @@ class Map:
 
     def show_info(self):
         self.character.display_info()
-        input()
+        input('Press enter to return to starting menu')
 
     def move_rooms(self):
         curr_id = self.current_room.id
