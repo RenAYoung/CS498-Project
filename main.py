@@ -149,3 +149,6 @@ def show_start_menu():
 			sys.exit(0)
 		else:
 			print("Invalid input: Please choose from following options: ")
+
+if __name__ == '__main__':
+	show_start_menu()
