@@ -10,30 +10,36 @@ import story
 
 def run_game(player):
 	# go through first phase of story
-	# story.begin_story()
+    story.begin_story()
 	
 	# equip sword and shield
-	player.sword_equip(item_list.wooden_stick)
-	player.shield_equip(item_list.wooden_plank)
+    player.sword_equip(item_list.wooden_stick)
+    player.shield_equip(item_list.wooden_plank)
 	
-	# set up item and enemy probabilities
-	item_probs = [[2, 1, 0, 0.5, 0, 0.25, 0, 0, 0, 1, 0.05, 0, 0, 0, 0, 0, 1.2, 0.07, 0, 0, 0],
+    # set up item and enemy probabilities
+    item_probs = [[2, 1, 0, 0.5, 0, 0.25, 0, 0, 0, 1, 0.05, 0, 0, 0, 0, 0, 1.2, 0.07, 0, 0, 0],
 	              [1, 2, 0.3, 1, 0.4, 0.25, 0.5, 0, 0, 2, 1, 0.8, 0.4, 0.03, 0, 0, 2, 1.6, 0.8, 0.3, 0],
 	              [0.4, 1.2, 0.9, 0.5, 1.2, 0.15, 0.35, 0.1, 0, 0, 0.05, 0.98, 0.7, 0.4, 0.01, 0, 0.4, 0.07, 0.8, 0.5, 0.01]]
 	
-	enemy_probs = [[3, 4, 2, 0.5, 0.4, 0.1, 0, 0, 0],
+    enemy_probs = [[3, 4, 2, 0.5, 0.4, 0.1, 0, 0, 0],
 	               [0, 0, 0.4, 1, 2, 1.3, 0.4, 0.7, 0.08],
 	               [0, 0, 0, 0, 0, 0.95, 1, 1.4, 0.8]]
 	
-	num_maps = len(item_probs)
-	for i in range(num_maps):
-		m = Map(player, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=5)
-		m.run()
-		if m.get_status() == 'LOST':
-			end_game(player, m.get_status())
-			break
-	else:
-		end_game(player, 'WON')
+    num_maps = len(item_probs)
+    for i in range(num_maps):
+        m = Map(player, item_probs[i], enemy_probs[i], room_height=7, room_width=9, num_rooms=5)
+        m.run()
+        if m.get_status() == 'LOST':
+            end_game(player, m.get_status())
+            break
+        if i == 0:
+            story.inbtwn1_story() 
+        if i == 1:
+            story.inbtwn2_story()
+        
+    else:
+        story.final_story()
+        end_game(player, 'WON')
 
 
 def end_game(player, game_status):
