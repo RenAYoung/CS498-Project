@@ -41,7 +41,7 @@ def inbtwn1_story():
     input("As you step out of the doorway of the first dungeon area, you hear a voice from around a bend. "
           + "\"...yes, I realize that the knight seems like a sweet surprise, I am not yet sure if I can trust all of the secrets of this place to them. "
           + "I know you think that they will not give up despite knowing the circumstances, but I am still wary of placing hope in them. "
-          + "If they knew that the dungeons are everchanging, and that if something goes wrong the rooms will be different, then maybe they would not ...\"")
+          + "If they knew that the dungeons are ever-changing, and that if something goes wrong the rooms will be different, then maybe they would not ...\"")
     
     input("The voice, which you recognize as belonging to the figure you saw earlier, stops abruptly. "
           + "It seems the person has noticed your arrival, as they approach you.")
