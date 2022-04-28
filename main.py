@@ -23,8 +23,16 @@ def run_game(player):
     player.sheild_equip(item_list.wooden_plank)
 
     # set up item and enemy probabilities
-    item_probs = [[1] * len(array_of_items)]
-    enemy_probs = [[1] * len(list_of_enemies)]
+    #item_probs = [[1] * len(array_of_items)]
+    #enemy_probs = [[1] * len(list_of_enemies)]
+
+    item_probs = [[2, 1, 0, 0.5, 0, 0.25, 0, 0, 3, 1, 0.05, 0, 0, 0, 0, 3, 1.2, 0.07, 0, 0, 0], 
+                [2, 1, 0, 0.5, 0, 0.25, 0, 0, 3, 1, 0.05, 0, 0, 0, 0, 3, 1.2, 0.07, 0, 0, 0], 
+                [2, 1, 0, 0.5, 0, 0.25, 0, 0, 3, 1, 0.05, 0, 0, 0, 0, 3, 1.2, 0.07, 0, 0, 0]]
+
+    enemy_probs = [[3, 4, 2, 0.5, 0.4, 0.1, 0, 0, 0], 
+                [3, 4, 2, 0.5, 0.4, 0.1, 0, 0, 0], 
+                [3, 4, 2, 0.5, 0.4, 0.1, 0, 0, 0]]
 
     num_maps = 1
     for i in range(num_maps):
