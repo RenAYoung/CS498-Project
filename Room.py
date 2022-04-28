@@ -40,6 +40,7 @@ class Room:
         self.is_final_room = is_final_room
         self.final_door_cells = None  # will be changed by self.set_final_door() if self.is_final_room
         self.set_final_door()
+        self.enemy_dead = False
 
         # arrays of coords for enemies and items
         self.items = {}

@@ -81,8 +81,13 @@ class Map:
         self.game_status = 'LOST'
 
     def final_exit(self):
-        print("exiting final door")
-        self.game_status = 'WON'
+        if self.current_room.enemy_dead:
+            self.game_status = 'WON'
+        else:
+            print("-" * 100)
+            print("You have to defeat the enemy in this room to escape the dungeon!")
+            print("-" * 100)
+            print()
 
     def get_status(self):
         return self.game_status
@@ -152,7 +157,8 @@ class Map:
                 curr_enemy = self.current_room.current_enemy()
                 if curr_enemy is not None:
                     result = fight(self.character, curr_enemy)
-                    if result == 1:
+                    if result == 1:  # enemy died
+                        self.current_room.enemy_dead = True
                         for enemy_pos, enemy in self.current_room.enemies.items():
                             if curr_enemy == enemy:
                                 dead_enemy_pos = enemy_pos
