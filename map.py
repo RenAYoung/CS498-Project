@@ -96,10 +96,6 @@ class Map:
 
     def pick_up_item(self):
         item = self.current_room.pick_up_item()
-        # if item.health_recovery:
-        # 	item.apply_effect(self.character)
-        # 	# self.character.use_item(item)
-        # else:
         self.character.add_item(item)
 
     def show_info(self):
@@ -156,6 +152,7 @@ class Map:
                 if curr_enemy is not None:
                     result = fight(self.character, curr_enemy)
                     if result == 1:  # enemy died
+                        curr_enemy.health = curr_enemy.max_health
                         self.current_room.enemy_dead = True
                         for enemy_pos, enemy in self.current_room.enemies.items():
                             if curr_enemy == enemy:
@@ -174,8 +171,3 @@ class Map:
         while self.game_status == 'PLAYING':
             self.current_room.print_room()
             self.print_move_prompt()
-
-# if __name__ == '__main__':
-# 	map = Map(room_height=10, room_width=13)
-# 	# run the game
-# 	map.run()
